@@ -1,0 +1,15 @@
+.buttons {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    height: 24px;
+    width: 24px;
+
+    background: #000000;
+}
+
+
+.buttons:hover {
+    opacity: 0.6;
+    cursor: pointer;
+}
