@@ -1,0 +1,20 @@
+.popup__input-field {
+    max-width: 358px;
+    width: 100%;
+    min-height: 27px;
+    margin-top: 30px;
+
+    opacity: 0.2;
+    border: none;
+    border-bottom: 1px solid #000000;
+}
+
+@media (max-width: 767px) {
+    .popup__input-field {
+        max-width: 238px;
+    }
+}
+
+.popup__input-field:first-of-type {
+    margin-top: 0;
+}

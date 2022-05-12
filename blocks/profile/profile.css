@@ -12,10 +12,11 @@
 }
 @media  (max-width: 907px) {
     .profile{
+        max-width: 652px;
         padding: 0 27px;
     }
 }
-@media (max-width: 767px) {
+@media (max-width: 600px) {
     .profile {
         max-width: 320px;
         flex-direction: column;
