@@ -2,6 +2,7 @@
    width: 24px;
    height: 24px;
    box-sizing: border-box;
+   outline: auto;
 }
 @media (max-width:600px) {
     .profile__edit-button {
@@ -9,3 +10,10 @@
         height: 18px;
     }
 }
+/* 
+@media (max-width:320px) {
+    .profile__edit-button {
+        width: 18px;
+        height: 18px;
+    }
+} */

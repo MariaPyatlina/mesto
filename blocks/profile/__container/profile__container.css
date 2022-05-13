@@ -4,16 +4,14 @@
     align-items: center;
     justify-content: flex-start;
     align-self: center;
+    outline: auto;
 }
 
-@media (max-width: 907px) {
+/* @media (max-width: 907px) {
     .profile__container {
-        /* max-width: 282px; */
-        /* flex-direction: column;
-        justify-content: center;
-        align-items: center; */
+        max-width: 907px;
     }
-}
+} */
 
 @media (max-width: 600px) {
     .profile__container {
