@@ -12,17 +12,9 @@
 }
  @media  (max-width: 907px) {
     .profile{
-        /* max-width: 907px; */
         padding: 40px 27px 51px;
     }
 }
-/*
-@media  (max-width: 767px) {
-    .profile{
-        flex-direction: column;
-    }
-} */
-
 @media (max-width: 600px) {
     .profile {
         padding: 42px 19px 36px;
@@ -34,9 +26,5 @@
 @media (max-width: 320px) {
     .profile {
         max-width: 320px;
-        /* padding: 42px 19px 36px;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center; */
     }
 }

@@ -3,8 +3,9 @@
    height: 24px;
    box-sizing: border-box;
    object-fit: contain;
-   background: transparent url("../../../images/button_icon_edit.svg") center no-repeat;
-   border: 1px solid #FFFFFF;
+   /* background: transparent url("../../../images/button_icon_edit.svg") center no-repeat; */
+   /* border: 1px solid #FFFFFF; */
+   border: none;
 }
 @media (max-width:600px) {
     .profile__edit-button {
