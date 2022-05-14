@@ -11,13 +11,11 @@
     align-items: flex-start;
     justify-content: flex-start;
 }
-
 @media  (max-width: 907px) {
     .header{
         padding-left: 27px;
     }
 }
-
 @media (max-width: 320px){
     .header {
         max-width: 320px;
@@ -25,5 +23,4 @@
         margin: 28px 0 0;
         padding-left: 27px;
     }
-    
 }

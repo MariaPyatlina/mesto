@@ -8,7 +8,6 @@
     border-radius: 2px;
     color: #fff;
 }
-
 @media (max-width: 767px) {
     .popup__save-button {
         width: 238px;

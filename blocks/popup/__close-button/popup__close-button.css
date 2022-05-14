@@ -5,8 +5,12 @@
     position: absolute;
     top: -40px;
     right: -40px;
-}
 
+    box-sizing: border-box;
+    background: transparent url("../../../images/button_close.svg") center no-repeat;
+    border: none;
+    border-radius: 2px;
+}
 @media (max-width: 767px) {
     .popup__close-button {
         width: 20px;

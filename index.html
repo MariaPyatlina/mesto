@@ -18,14 +18,15 @@
                         <div class="profile__info">
                             <div class="profile__title-container">
                                 <h2 class="profile__name">Жак-Ив Кусто</h2>
-                                <img class="buttons profile__edit-button profile__edit-button_open-popup" src="images/button_icon_edit.svg" alt="Кнопка Редактировать">
-                            </div>                          
+                                <button type="button" class="buttons profile__edit-button">
+                                    <img class="profile__edit-image" src="/images/button_icon_edit.svg" alt="Редактировать профиль">
+                                </button>
+                            </div>
                             <p class="profile__profession">Исследователь океана</p> 
                          </div> 
                     </div>
-                    <img class="buttons profile__add-button" src="images/button_icon_add.svg" alt="Кнопка Добавить">
+                    <button type="button" class="buttons profile__add-button"></button>
                 </section>
-
                 <section class="elements">
                     <div class="cards-container">
                         <div class="card">
@@ -84,16 +85,13 @@
             </footer>
             <section class="popup">
                 <div class="popup__container">
-                    <img class="buttons popup__close-button" src="images/button_close.svg" alt="Закрыть">
+                    <button class="buttons popup__close-button"></button>
                     <h2 class="popup__title">Редактировать профиль</h2>
-                    <input class="popup__input-field"></input>
-                    <input class="popup__input-field"></input>
-                    <button class="buttons popup__save-button">Сохранить</button>
+                    <input type="text" class="popup__input-field popup__input-field_name">
+                    <input type="text" class="popup__input-field popup__input-field_profession">
+                    <button type="submit" class="buttons popup__save-button">Сохранить</button>
                 </div>
             </section>
             <script type="text/javascript" src="scripts/index.js"></script>
     </body>
 </html>
-
-
-<!-- nameInput.value = profileTitle.textContent; -->

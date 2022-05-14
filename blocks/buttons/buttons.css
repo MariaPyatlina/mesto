@@ -1,11 +1,8 @@
 .buttons {
     margin: 0;
     padding: 0;
-    border: 0;
-
     background: #000000;
 }
-
 
 .buttons:hover {
     opacity: 0.6;

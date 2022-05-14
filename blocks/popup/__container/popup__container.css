@@ -15,7 +15,6 @@
     align-items: center;
     justify-content: space-between;
 }
-
 @media (max-width: 767px) {
     .popup__container {
         max-width: 282px;
