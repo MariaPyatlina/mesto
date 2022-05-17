@@ -10,9 +10,16 @@
 
     border-radius: 2px;
     border-color: #ffffff;
+    margin: 0;
+    padding: 0;
+    /* background: #000000; */
 }
 @media (max-width: 600px) {
     .profile__add-button {
         width: 282px;
     }   
+}
+.profile__add-button:hover {
+    opacity: 0.6;
+    cursor: pointer;
 }

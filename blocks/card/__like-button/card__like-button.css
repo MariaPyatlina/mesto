@@ -3,4 +3,12 @@
     height: 19px;
     background: white;
     margin-right: 15px;
+    border: 0;
+    padding: 0;
+    /* background: #000000; */
+}
+
+.card__like-button:hover {
+    opacity: 0.5;
+    cursor: pointer;
 }
