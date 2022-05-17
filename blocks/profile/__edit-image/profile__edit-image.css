@@ -1,9 +1,9 @@
-.profile__edite-image {
+.profile__edit-image {
     width: 24px;
     height: 24px;
 }
 @media (max-width:600px) {
-    .profile__edite-image {
+    .profile__edit-image {
         width: 18px;
         height: 18px;
     }

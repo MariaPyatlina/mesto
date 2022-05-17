@@ -17,15 +17,15 @@
                         <img class="profile__avatar" src="images/avatar.jpg" alt="Аватар">
                         <div class="profile__info">
                             <div class="profile__title-container">
-                                <h2 class="profile__name">Жак-Ив Кусто</h2>
-                                <button type="button" class="buttons profile__edit-button">
+                                <h1 class="profile__name">Жак-Ив Кусто</h1>
+                                <button type="button" class="profile__edit-button">
                                     <img class="profile__edit-image" src="images/button_icon_edit.svg" alt="Редактировать профиль">
                                 </button>
                             </div>
                             <p class="profile__profession">Исследователь океана</p> 
                          </div> 
                     </div>
-                    <button type="button" class="buttons profile__add-button"></button>
+                    <button type="button" class="profile__add-button"></button>
                 </section>
                 <section class="elements">
                     <div class="cards-container">
@@ -33,7 +33,9 @@
                             <img class="card__image" src="images/card_karachaevsk.png" alt="Церковь в Карачаевске">
                             <div class="card__description-container">
                                 <h2 class="card__title">Карачаевск Карачаевск</h2>
-                                <img class="buttons card__like-button" src="images/like_disabled.svg" alt="Кнопка Like">
+                                <button type="button" class="card__like-button">
+                                    <img src="images/like_disabled.svg" alt="Кнопка Like">
+                                </button>
                             </div>
                         </div>
     
@@ -41,7 +43,9 @@
                             <img class="card__image" src="images/card_elbrus.png" alt="Гора Эльбрус">
                             <div class="card__description-container">
                                 <h2 class="card__title">Гора Эльбрус</h2>
-                                <img class="buttons card__like-button" src="images/like_disabled.svg" alt="Кнопка Like">
+                                <button type="button" class="card__like-button">
+                                    <img src="images/like_disabled.svg" alt="Кнопка Like">
+                                </button>
                             </div>
                         </div>
     
@@ -49,7 +53,9 @@
                             <img class="card__image" src="images/card_dombay.png" alt="Горы в Домбае">
                             <div class="card__description-container">
                                 <h2 class="card__title">Домбай</h2>
-                                <img class="buttons card__like-button" src="images/like_disabled.svg" alt="Кнопка Like">
+                                <button type="button" class="card__like-button">
+                                    <img src="images/like_disabled.svg" alt="Кнопка Like">
+                                </button>
                             </div>
                         </div>
     
@@ -57,7 +63,9 @@
                             <img class="card__image" src="images/card_elbrus.png" alt="Гора Эльбрус">
                             <div class="card__description-container">
                                 <h2 class="card__title">Гора Эльбрус</h2>
-                                <img class="buttons card__like-button" src="images/like_disabled.svg" alt="Кнопка Like">
+                                <button type="button" class="card__like-button">
+                                    <img src="images/like_disabled.svg" alt="Кнопка Like">
+                                </button>
                             </div>
                         </div>
     
@@ -65,7 +73,9 @@
                             <img class="card__image" src="images/card_dombay.png" alt="Горы в Домбае">
                             <div class="card__description-container">
                                 <h2 class="card__title">Домбай</h2>
-                                <img class="buttons card__like-button" src="images/like_disabled.svg" alt="Кнопка Like">
+                                <button type="button" class="card__like-button">
+                                    <img src="images/like_disabled.svg" alt="Кнопка Like">
+                                </button>
                             </div>
                         </div>
     
@@ -73,7 +83,9 @@
                             <img class="card__image" src="images/card_karachaevsk.png" alt="Церковь в Карачаевске">
                             <div class="card__description-container">
                                 <h2 class="card__title">Карачаевск</h2>
-                                <img class="buttons card__like-button" src="images/like_disabled.svg" alt="Кнопка Like">
+                                <button type="button" class="card__like-button">
+                                    <img src="images/like_disabled.svg" alt="Кнопка Like">
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -84,11 +96,13 @@
             </footer>
             <section class="popup">
                 <div class="popup__container">
-                    <button class="buttons popup__close-button"></button>
+                    <button class="popup__close-button"></button>
                     <h2 class="popup__title">Редактировать профиль</h2>
-                    <input type="text" class="popup__input-field popup__input-field_name">
-                    <input type="text" class="popup__input-field popup__input-field_profession">
-                    <button type="submit" class="buttons popup__save-button">Сохранить</button>
+                        <form class="popup__form" name="form_edit_profile_info">
+                            <input type="text" placeholder="Имя" required class="popup__input-field popup__input-field_name">
+                            <input type="text" placeholder="Профессия" required class="popup__input-field popup__input-field_profession">
+                            <button type="submit" class="popup__save-button">Сохранить</button>
+                        </form>
                 </div>
             </section>
             <script type="text/javascript" src="scripts/index.js"></script>
