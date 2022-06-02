@@ -27,25 +27,18 @@
                     </div>
                     <button type="button" class="profile__add-button"></button>
                 </section>
+
                 <section class="elements">
                     <div class="cards-container">
-                        <!-- <div class="card">
-                            <img class="card__image" src="images/card_karachaevsk.png" alt="Церковь в Карачаевске">
-                            <div class="card__description-container">
-                                <h2 class="card__title">Карачаевск</h2>
-                                <button type="button" class="card__like-button">
-                                     <img src="images/like_disabled.svg" alt="Кнопка Like"> 
-                                </button>
-                            </div>
-                        </div> -->
                     </div>
                 </section>
             </main>
             <footer class="footer">
                 <p class="footer__copyright">&#169; 2022 Mesto Russia</p>
             </footer>
+
             <!--Попап редактирования профиля  -->
-            <section class="popup">
+            <section class="popup popup__edit-profile">
                 <div class="popup__container">
                     <button type="button" class="popup__close-button"></button>
                     <h2 class="popup__title">Редактировать профиль</h2>
@@ -62,7 +55,7 @@
                     <div class="popup__container">
                         <button type="button" class="popup__close-button"></button>
                         <h2 class="popup__title">Новое место</h2>
-                            <form class="popup__form_type-add" name="form_edit_profile_info">
+                            <form class="popup__form_type-add" name="form_add_new_card">
                                 <input type="text" name="place_name" placeholder="Название" required class="popup__input-field popup__input-field_place_name">
                                 <input type="text" name="place_link" placeholder="Ссылка на картинку" required class="popup__input-field popup__input-field_place_link">
                                 <button type="submit" class="popup__save-button">Сохранить</button>
@@ -72,12 +65,12 @@
 
             <!--Попап открытия картинки  -->
             <section class="popup popup__open-picture">
-                <div class="popup__container_type-picture" area-lable="Просмотр картинки">
+                <div class="popup__container_type-picture">
                     <button type="button" class="popup__close-button"></button>
                     <figure class="popup__figure-box">
                         <img class="popup__image"  src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg"
                               alt="Картинка из карточки">
-                        <figcaption class="popup__caption">Сюда будем передавать name</figcaption>
+                        <figcaption class="popup__caption"></figcaption>
                     </figure>
                 </div>
         </section>
@@ -86,6 +79,7 @@
             <template class="card_template">
                 <div class="card">
                     <img class="card__image" src=" " alt=" ">
+                    <div class="card__cover"></div>
                     <button class="card__delete-button">
                         <img src="images/trash-button.svg" alt="Удалить карточку">
                     </button>
@@ -95,7 +89,6 @@
                     </div>
                 </div>
             </template>
-
 
             <script type="text/javascript" src="scripts/index.js"></script>
     </body>

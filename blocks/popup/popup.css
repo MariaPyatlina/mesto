@@ -7,8 +7,10 @@
 
     background-color: rgb(0, 0, 0, .5);
 
-    /* display: flex; */
+    display: flex;
     justify-content: center;
     align-items: center;
-    display: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 500ms, opacity 500ms;
 }
