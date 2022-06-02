@@ -53,7 +53,7 @@ const cardTemplateDeleteButton = cardTemplate.querySelector('.card__delete-butto
 //Попап добавления нового места
 const popupAddCard = document.querySelector('.popup__add-card'); //Нашли попап на станице
 const closeAddCardPopupButton = popupAddCard.querySelector('.popup__close-button');  //Кнопка Закрыть попап
-const popupFormTypeAdd = popupAddCard.querySelector('.popup__form_type-add');  //Форма с полями ввода и кнопкой сохранить
+const popupFormTypeAdd = popupAddCard.querySelector('.popup__form-add');  //Форма с полями ввода и кнопкой сохранить
 const placeNameInPopupAddCard = popupFormTypeAdd.querySelector('.popup__input-field_place_name'); //Поле Название
 const placeLinkInPopupAddCard = popupFormTypeAdd.querySelector('.popup__input-field_place_link'); //Поле Ссылка
 const saveNewCardButton = popupFormTypeAdd.querySelector('.popup__save-button');  //Кнопка Сохранить
