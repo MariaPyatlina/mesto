@@ -51,7 +51,7 @@ const cardTemplateLikeButton = cardTemplate.querySelector('.card__like-button');
 const cardTemplateDeleteButton = cardTemplate.querySelector('.card__delete-button');  //Мусорка
 
 //Попап добавления нового места
-const popupAddCard = document.querySelector('.popup__add-card'); //Нашли попап на станице
+const popupAddCard = document.querySelector('.popup_type_add-card'); //Нашли попап на станице
 const closeAddCardPopupButton = popupAddCard.querySelector('.popup__close-button');  //Кнопка Закрыть попап
 const popupFormTypeAdd = popupAddCard.querySelector('.popup__form-add');  //Форма с полями ввода и кнопкой сохранить
 const placeNameInPopupAddCard = popupFormTypeAdd.querySelector('.popup__input-field_place_name'); //Поле Название
@@ -59,7 +59,7 @@ const placeLinkInPopupAddCard = popupFormTypeAdd.querySelector('.popup__input-fi
 const saveNewCardButton = popupFormTypeAdd.querySelector('.popup__save-button');  //Кнопка Сохранить
 
 //попап редактирования профиля
-const popupEditProfile = document.querySelector('.popup__edit-profile'); //Окно попапа
+const popupEditProfile = document.querySelector('.popup_type_edit-profile'); //Окно попапа
 const closeButton = popupEditProfile.querySelector('.popup__close-button');  //Кнопка Закрыть попап
 const popupForm = popupEditProfile.querySelector('.popup__form'); //Область поле ввода+кнопка
 const nameFieldInPopup = popupForm.querySelector('.popup__input-field_name_name'); //Поле Имя
@@ -67,7 +67,7 @@ const professionFieldInPopup = popupForm.querySelector('.popup__input-field_name
 const saveButton = popupForm.querySelector('.popup__save-button'); //кнопка Сохранить
 
 //Попап картинки
-const popupOpenPicture = document.querySelector('.popup__open-picture'); //Попап большой картинки
+const popupOpenPicture = document.querySelector('.popup_type_open-picture'); //Попап большой картинки
 const closePopupBigPictureButton = popupOpenPicture.querySelector('.popup__close-button'); //Кнопка Закрыть попап
 const captionBigPicture = popupOpenPicture.querySelector('.popup__caption');  //Подпись к картике
 const imageBigPicture = popupOpenPicture.querySelector('.popup__image');  //Картинка в попапе
