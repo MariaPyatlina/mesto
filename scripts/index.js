@@ -60,18 +60,18 @@ const saveNewCardButton = popupFormTypeAdd.querySelector('.popup__save-button');
 
 //попап редактирования профиля
 const popupEditProfile = document.querySelector('.popup_type_edit-profile'); //Окно попапа
-const closeButton = popupEditProfile.querySelector('.popup__close-button');  //Кнопка Закрыть попап
-const popupForm = popupEditProfile.querySelector('.popup__form'); //Область поле ввода+кнопка
-const nameFieldInPopup = popupForm.querySelector('.popup__input-field_name_name'); //Поле Имя
-const professionFieldInPopup = popupForm.querySelector('.popup__input-field_name_profession'); //поле Профессия
-const saveButton = popupForm.querySelector('.popup__save-button'); //кнопка Сохранить
+const closeEditProfileButton = popupEditProfile.querySelector('.test');  //Кнопка Закрыть попап
+const popupFormTypeEdit = popupEditProfile.querySelector('.popup__form'); //Область поле ввода+кнопка
+const nameFieldInPopup = popupFormTypeEdit.querySelector('.popup__input-field_name_name'); //Поле Имя
+const professionFieldInPopup = popupFormTypeEdit.querySelector('.popup__input-field_name_profession'); //поле Профессия
+const saveButton = popupFormTypeEdit.querySelector('.popup__save-button'); //кнопка Сохранить
 
 //Попап картинки
 const popupOpenPicture = document.querySelector('.popup_type_open-picture'); //Попап большой картинки
 const closePopupBigPictureButton = popupOpenPicture.querySelector('.popup__close-button'); //Кнопка Закрыть попап
 const captionBigPicture = popupOpenPicture.querySelector('.popup__caption');  //Подпись к картике
-const imageBigPicture = popupOpenPicture.querySelector('.popup__image');  //Картинка в попапе
-
+const pictureInPopup =  popupOpenPicture.querySelector('.popup__image');  //Картинка в попапе
+const captionInPopup =  popupOpenPicture.querySelector('.popup__caption'); //Подпись в попапе
 
 //+ Функция добавления карточек на страницу из массива
 function addCardToPage(arrayCard){
@@ -91,11 +91,8 @@ function createCard(title, link){
   
     // повесить слушателей
     //на просмотр картинки
-    cardElement.querySelector('.card__cover').addEventListener('click', function addPopupBigPicture(){
-        popupOpenPicture.classList.add("popup_opened");
-
-        const pictureInPopup =  popupOpenPicture.querySelector('.popup__image');
-        const captionInPopup =  popupOpenPicture.querySelector('.popup__caption');
+    cardElement.querySelector('.card__cover').addEventListener('click', function openPopupBigPicture(){
+        openPopup(popupOpenPicture);
         pictureInPopup.src = cardElement.querySelector('.card__image').src;
         pictureInPopup.alt = cardElement.querySelector('.card__title').textContent;
         captionInPopup.textContent =  cardElement.querySelector('.card__title').textContent;
@@ -115,9 +112,9 @@ function createCard(title, link){
     return cardElement;  // вернуть значение карточки
 }
 
-//Функция открытия/закрытия попапа редактирования профиля
-function togglePopupEditProfile() {
-  popupEditProfile.classList.toggle("popup_opened");
+//Функция открытия попапа редактирования профиля
+function openPopupEditProfile() {
+  openPopup(popupEditProfile);
 
   if(popupEditProfile.classList.contains("popup_opened")){ //При открытии попапа подставляет значения в поля формы из профиля
       nameFieldInPopup.value = userName.textContent;
@@ -125,43 +122,43 @@ function togglePopupEditProfile() {
   }
 }
 
-//Функция открытия/закрытия попапа добавления нового места
-function togglePopupAddCard(){
-    popupAddCard.classList.toggle("popup_opened");
-}
-
-//Функция закрытия попапа с картинкой
-function closePopupBigPicture(){
-    popupOpenPicture.classList.remove("popup_opened");
-}
-
-//Функция обновляет введенные данные в профиле пользователя
-function formSubmitHandler (evt) {
+//Функция сохраняет введенные данные в профиле пользователя
+function handleProfileFormSubmit (evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   userName.textContent = nameFieldInPopup.value;  //Передаем в профиль пользователя значения из полей input попапа
-  userProfession.textContent = professionFieldInPopup.value;
-  togglePopupEditProfile();  //Вызываем функцию закрывающую попап
+  userProfession.textContent = professionFieldInPopup.value; 
+  closePopup(popupEditProfile); //Вызываем функцию закрывающую попап
 }
 
 //Функция сохраняющая введенные данные нового места
-function formSubmitHandlerAddCard (evt) {
+function handleAddCardFormSubmit (evt) {
     evt.preventDefault();
     sectionElementsContainer.prepend(createCard(placeNameInPopupAddCard.value, placeLinkInPopupAddCard.value)); //Забираем значения из полей ввода и передали их в функцию создания карточки и Добавляем карточку в начало блока с карточками
     placeNameInPopupAddCard.value = null;  //Очистили инпуты в попапе
     placeLinkInPopupAddCard.value = null
-    togglePopupAddCard();  //Закрыть попап
+    closePopup(popupAddCard);
+}
+
+//Функция открытия попапа
+function openPopup(popupWindow){
+  popupWindow.classList.add("popup_opened");
+}
+
+//Функция закрытия попапа
+function closePopup(popupWindow){
+  popupWindow.classList.remove("popup_opened");
 }
 
 //Слушатели кликов вне карточки
 //Редактирования профиля
-editButton.addEventListener('click', togglePopupEditProfile);  //По кнопке Редактировать открываем попап и передаем установленные значения в поля ввода
-closeButton.addEventListener('click', togglePopupEditProfile);   //По кнопке крестик - закрываем попап без изменения полей
-popupForm.addEventListener('submit', formSubmitHandler);  // По кнопке Submit (Сохранить) вызываем функцию обновляющую данные в профиле пользователя
+editButton.addEventListener('click', openPopupEditProfile);  //По кнопке Редактировать открываем попап и передаем установленные значения в поля ввода
+popupFormTypeEdit.addEventListener('submit', handleProfileFormSubmit);  // По кнопке Submit (Сохранить) вызываем функцию обновляющую данные в профиле пользователя
+closeEditProfileButton.addEventListener('click', () => {closePopup(popupEditProfile)});  //По кнопке крестик - закрываем попап без изменения полей
 
 //Добавление карточки по кнопке +
-addButton.addEventListener('click', togglePopupAddCard);  //Открыть попап добавления новой карточки
-closeAddCardPopupButton.addEventListener('click', togglePopupAddCard);  //закрыть попап добавления новой карточки
-popupFormTypeAdd.addEventListener('submit', formSubmitHandlerAddCard); //Сохранить новую карточку
+addButton.addEventListener('click', () =>{openPopup(popupAddCard)});  //Открыть попап добавления новой карточки
+popupFormTypeAdd.addEventListener('submit', handleAddCardFormSubmit); //Сохранить новую карточку
+closeAddCardPopupButton.addEventListener('click', () => {closePopup(popupAddCard)});  //закрыть попап добавления новой карточки
 
 //закрытие попапа с картинкой
-closePopupBigPictureButton.addEventListener('click', closePopupBigPicture); //Закрыть попап с картинкой
+closePopupBigPictureButton.addEventListener('click', () => {closePopup(popupOpenPicture)});
