@@ -53,7 +53,7 @@ const cardTemplateDeleteButton = cardTemplate.querySelector('.card__delete-butto
 //Попап добавления нового места
 const popupAddCard = document.querySelector('.popup_type_add-card'); //Нашли попап на станице
 const closeAddCardPopupButton = popupAddCard.querySelector('.popup__close-button');  //Кнопка Закрыть попап
-const popupFormTypeAdd = popupAddCard.querySelector('.popup__form-add');  //Форма с полями ввода и кнопкой сохранить
+const popupFormTypeAdd = popupAddCard.querySelector('.popup__form');  //Форма с полями ввода и кнопкой сохранить
 const placeNameInPopupAddCard = popupFormTypeAdd.querySelector('.popup__input-field_place_name'); //Поле Название
 const placeLinkInPopupAddCard = popupFormTypeAdd.querySelector('.popup__input-field_place_link'); //Поле Ссылка
 const saveNewCardButton = popupFormTypeAdd.querySelector('.popup__save-button');  //Кнопка Сохранить
@@ -108,6 +108,8 @@ function createCard(title, link){
       const cardForRemoving = cardElement.querySelector('.card__delete-button').closest('.card');
       cardForRemoving.remove();
     });
+
+    closePopupViaEsc(popupAddCard);
     
     return cardElement;  // вернуть значение карточки
 }
@@ -161,4 +163,83 @@ popupFormTypeAdd.addEventListener('submit', handleAddCardFormSubmit); //Сохр
 closeAddCardPopupButton.addEventListener('click', () => {closePopup(popupAddCard)});  //закрыть попап добавления новой карточки
 
 //закрытие попапа с картинкой
-closePopupBigPictureButton.addEventListener('click', () => {closePopup(popupOpenPicture)});
+cloButton.asePopupBigPictureddEventListener('click', () => {closePopup(popupOpenPicture)});
+
+
+
+//Валидация
+
+
+
+
+
+
+
+// popupFormTypeAdd.addEventListener('submit', function (evt) {
+//   evt.preventDefault();
+// });
+
+// // placeNameInPopupAddCard.addEventListener('input', () => {isValid(placeNameInPopupAddCard)}); 
+
+// placeLinkInPopupAddCard.addEventListener('input', () => {isValid(placeLinkInPopupAddCard)});
+
+
+//найдем значение полей спанов
+// console.log(placeNameInPopupAddCard.id);
+
+// const placeNameInPopupAddCardError = popupFormTypeAdd.querySelector(`.${placeNameInPopupAddCard.id}-error`);
+// console.log(placeNameInPopupAddCardError);
+
+// const placeLinkInPopupAddCardError = popupFormTypeAdd.querySelector(`.${placeLinkInPopupAddCard.id}-error`);
+// console.log(placeLinkInPopupAddCardError);
+
+// const inputField = popupAddCard.querySelector('.popup__input-field'); //любое поле ввода в попапе
+// const inputFieldError = popupFormTypeAdd.querySelector(`.${inputField.id}-error`);
+
+// console.log(inputField.id);
+// console.log('inputFieldError', inputFieldError);
+
+//const inputErrorAddCard = popupAddCard.querySelector(`.${element.id}-error`);
+
+
+
+//функция закрытия попапа по кнопке ESc
+function closePopupViaEsc(popup){
+  document.addEventListener('keydown', (evt) => {
+    console.log(evt.key);
+    if (evt.key === "Escape") {
+      closePopup(popup);
+      document.removeEventListener('keydown', closePopupViaEsc);
+      console.log('удалили слушателя esc');
+    }
+  });
+}
+
+closePopupViaEsc(popupEditProfile);
+closePopupViaEsc(popupAddCard);
+closePopupViaEsc(popupOpenPicture);
+
+
+//Закрытие попапа по клику вне попапа - Работает
+function closePopupViaClick(popup){
+  popup.addEventListener('click', (evt) => {
+    if (evt.target.classList.contains("popup")){
+      console.log('зашли в условие ');
+      closePopup(popup);
+    };
+  });
+};
+
+closePopupViaClick(popupEditProfile);
+closePopupViaClick(popupAddCard);
+closePopupViaClick(popupOpenPicture);
+
+//Функция валидации. которая принимает на вход объект настроек
+// enableValidation({
+//   formSelector: '.popup__form',
+//   inputSelector: '.popup__input',
+//   submitButtonSelector: '.popup__button',
+//   inactiveButtonClass: 'popup__button_disabled',
+//   inputErrorClass: 'popup__input_type_error',
+//   errorClass: 'popup__error_visible'
+// }); 

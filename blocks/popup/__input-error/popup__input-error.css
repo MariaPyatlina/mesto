@@ -1,0 +1,14 @@
+.popup__input-error {
+    margin: 0;
+    padding: 0;
+
+    display:inline-block;
+
+    max-width: 358px;
+    width: 100%;
+    box-sizing: border-box;
+    height: 30px;
+    visibility: hidden;
+    opacity: 0;
+
+}

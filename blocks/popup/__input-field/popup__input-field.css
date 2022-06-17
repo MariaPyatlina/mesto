@@ -2,7 +2,7 @@
     max-width: 358px;
     width: 100%;
     min-height: 27px;
-    margin-top: 30px;
+    /* margin-top: 30px; */
 
     border: none;
     border-bottom: 1px solid rgba(1, 1, 1, .2);
@@ -12,6 +12,7 @@
     line-height: 17px;
 
     color: #000000;
+    /* color: #C4C4C4; */
 }
 @media (max-width: 767px) {
     .popup__input-field {
@@ -21,3 +22,9 @@
 .popup__input-field:first-of-type {
     margin-top: 0;
 }
+
+/* .popup__input-field:invalid {
+    border-bottom: 1px solid #FF0000;
+ } */
+
+
