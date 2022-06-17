@@ -1,5 +1,6 @@
 .popup__save-button_invalid {
     box-sizing: border-box;
+    pointer-events: none;
     
     border: 1px solid #000000;
     border-radius: 2px;
@@ -13,3 +14,7 @@
     opacity: .2;
     background-color: white;
 }
+/* .popup__save-button_invalid:hover {
+    opacity: 0;
+    cursor: none;
+} */
