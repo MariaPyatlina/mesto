@@ -27,13 +27,14 @@ const initialCards = [
 ];
 
 const popupList = document.querySelectorAll('.popup'); //все попапы
-const closePopupButtonList = document.querySelectorAll('.popup__close-button'); //все кнопки закрыть на попапах
+const buttonClosePopupList = document.querySelectorAll('.popup__close-button'); //все кнопки закрыть на попапах
+const buttonSubmitList = document.querySelectorAll('.popup__save-button'); //все кнопки Сохранит на попапах
 
 //Секция профиль
 const profileArea = document.querySelector('.profile'); //Область Профиль
-const addButton = profileArea.querySelector('.profile__add-button'); //Кнопка "Добавить"
+const buttonAddCard = profileArea.querySelector('.profile__add-button'); //Кнопка "Добавить"
 const profileContainer = document.querySelector('.profile__container'); 
-const editButton = profileContainer.querySelector('.profile__edit-button'); //Кнопка Редактировать
+const buttonEditProfile = profileContainer.querySelector('.profile__edit-button'); //Кнопка Редактировать
 const userName = profileContainer.querySelector('.profile__name'); //Имя пользователя
 const userProfession = profileContainer.querySelector('.profile__profession'); //Профессия пользователя
 
@@ -51,23 +52,23 @@ const cardTemplateDeleteButton = cardTemplate.querySelector('.card__delete-butto
 
 //Попап добавления нового места
 const popupAddCard = document.querySelector('.popup_type_add-card'); //Нашли попап на станице
-const closeAddCardPopupButton = popupAddCard.querySelector('.popup__close-button');  //Кнопка Закрыть попап
+//const buttonCloseAddCardPopup = popupAddCard.querySelector('.popup__close-button');  //Кнопка Закрыть попап
 const popupFormTypeAdd = popupAddCard.querySelector('.popup__form');  //Форма с полями ввода и кнопкой сохранить
 const placeNameInPopupAddCard = popupFormTypeAdd.querySelector('.popup__input-field_place_name'); //Поле Название
 const placeLinkInPopupAddCard = popupFormTypeAdd.querySelector('.popup__input-field_place_link'); //Поле Ссылка
-const saveNewCardButton = popupFormTypeAdd.querySelector('.popup__save-button');  //Кнопка Сохранить
+const buttonSaveNewCard = popupFormTypeAdd.querySelector('.popup__save-button');  //Кнопка Сохранить
 
 //попап редактирования профиля
 const popupEditProfile = document.querySelector('.popup_type_edit-profile'); //Окно попапа
-const closeEditProfileButton = popupEditProfile.querySelector('.popup__close-button');  //Кнопка Закрыть попап
+//const buttonCloseEditProfile = popupEditProfile.querySelector('.popup__close-button');  //Кнопка Закрыть попап
 const popupFormTypeEdit = popupEditProfile.querySelector('.popup__form'); //Область поле ввода+кнопка
 const nameFieldInPopup = popupFormTypeEdit.querySelector('.popup__input-field_name_name'); //Поле Имя
 const professionFieldInPopup = popupFormTypeEdit.querySelector('.popup__input-field_name_profession'); //поле Профессия
-const saveButton = popupFormTypeEdit.querySelector('.popup__save-button'); //кнопка Сохранить
+//const buttonSave = popupFormTypeEdit.querySelector('.popup__save-button'); //кнопка Сохранить
 
 //Попап картинки
 const popupOpenPicture = document.querySelector('.popup_type_open-picture'); //Попап большой картинки
-const closePopupBigPictureButton = popupOpenPicture.querySelector('.popup__close-button'); //Кнопка Закрыть попап
+//const buttonClosePopupBigPicture = popupOpenPicture.querySelector('.popup__close-button'); //Кнопка Закрыть попап
 const captionBigPicture = popupOpenPicture.querySelector('.popup__caption');  //Подпись к картике
 const pictureInPopup =  popupOpenPicture.querySelector('.popup__image');  //Картинка в попапе
 const captionInPopup =  popupOpenPicture.querySelector('.popup__caption'); //Подпись в попапе
@@ -83,10 +84,12 @@ addCardToPage(initialCards);
 //Функция создания карточки
 function createCard(title, link){
     const cardElement = cardTemplate.querySelector('.card').cloneNode(true); // Клонируем содержимое шаблона карточки
+    const cardElementImage = cardElement.querySelector('.card__image');
+    const cardElementTitle = cardElement.querySelector('.card__title');
 
-    cardElement.querySelector('.card__image').src = link;  // заполняем в ней поля
-    cardElement.querySelector('.card__image').alt = title;
-    cardElement.querySelector('.card__title').textContent = title;
+    cardElementImage.src = link;  // заполняем в ней поля
+    cardElementImage.alt = title;
+    cardElementTitle.textContent = title;
   
     // повесить слушателей
     //на просмотр картинки
@@ -104,8 +107,7 @@ function createCard(title, link){
 
     //На кнопку удалить
     cardElement.querySelector('.card__delete-button').addEventListener('click', function removeCard(){
-      const cardForRemoving = cardElement.querySelector('.card__delete-button').closest('.card');
-      cardForRemoving.remove();
+      cardElement.remove();
     });
 
     return cardElement;  // вернуть значение карточки
@@ -114,11 +116,8 @@ function createCard(title, link){
 //Функция открытия попапа редактирования профиля
 function openPopupEditProfile() {
     openPopup(popupEditProfile);
-
-    if(popupEditProfile.classList.contains("popup_opened")){ //При открытии попапа подставляет значения в поля формы из профиля
-        nameFieldInPopup.value = userName.textContent;
-        professionFieldInPopup.value = userProfession.textContent;
-    }
+    nameFieldInPopup.value = userName.textContent;
+    professionFieldInPopup.value = userProfession.textContent;
 }
 
 //Функция сохраняет введенные данные в профиле пользователя
@@ -133,8 +132,9 @@ function handleProfileFormSubmit (evt) {
 function handleAddCardFormSubmit (evt) {
     evt.preventDefault();
     sectionElementsContainer.prepend(createCard(placeNameInPopupAddCard.value, placeLinkInPopupAddCard.value)); //Забираем значения из полей ввода и передали их в функцию создания карточки и Добавляем карточку в начало блока с карточками
-    closePopup(popupAddCard);
-    popupFormTypeAdd.reset();
+    closePopup(popupAddCard);  //Закрываем попап
+    popupFormTypeAdd.reset();  //Очищаем поля ввода 
+    buttonSaveNewCard.classList.add("popup__save-button_invalid");
 }
 
 //Функция открытия попапа
@@ -151,11 +151,11 @@ function closePopup(popup){
 
 //Слушатели кликов вне карточки
 //Редактирования профиля
-editButton.addEventListener('click', openPopupEditProfile);  //По кнопке Редактировать открываем попап и передаем установленные значения в поля ввода
+buttonEditProfile.addEventListener('click', openPopupEditProfile);  //По кнопке Редактировать открываем попап и передаем установленные значения в поля ввода
 popupFormTypeEdit.addEventListener('submit', handleProfileFormSubmit);  // По кнопке Submit (Сохранить) вызываем функцию обновляющую данные в профиле пользователя
 
 //Добавление карточки по кнопке +
-addButton.addEventListener('click', () =>{openPopup(popupAddCard)});  //Открыть попап добавления новой карточки
+buttonAddCard.addEventListener('click', () =>{openPopup(popupAddCard)});  //Открыть попап добавления новой карточки
 popupFormTypeAdd.addEventListener('submit', handleAddCardFormSubmit); //Сохранить новую карточку
 
 //функция закрытия попапа по кнопке ESc
@@ -163,6 +163,7 @@ function closePopupViaEsc(evt){
     if (evt.key === "Escape") {
         const popupExit = document.querySelector('.popup_opened');
         closePopup(popupExit);
+        
     }
 };
 

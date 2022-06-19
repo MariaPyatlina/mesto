@@ -1,8 +1,6 @@
 //Добавляет класс с ошибкой в форму ввода
 const showInputError = (formElement, inputElement, errorMessage, setting) => {
     const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
-    console.log(inputElement.id);
-
     inputElement.classList.add(setting.inputErrorClass);
     errorElement.textContent = errorMessage;
     errorElement.classList.add(setting.errorClass);
@@ -22,12 +20,9 @@ const isValid = (formElement, inputElement, setting) => {
     //если значение в поле ввода не валидно
     if (!inputElement.validity.valid) {
         showInputError(formElement, inputElement, inputElement.validationMessage, setting); 
-        console.log('сработал вызов функции показать ошибку');
-        console.log('ошибка', inputElement.validationMessage);
     }
     else {
         hideInputError(formElement, inputElement, setting);
-        console.log('сработал вызов функции скрыть ошибку');
     }
   }
 
@@ -44,7 +39,6 @@ const setEventListener = (formElement, setting) => {
             toggleButtonState(inputList, buttonElement, setting);
         });
     });
-    formElement.addEventListener('reset', () => disableButton(buttonElement, setting));
 }
 
 //Функция делает кнопку в форме неактивной
@@ -58,9 +52,6 @@ const enableValidation = (setting) => {
     const formList = Array.from(document.querySelectorAll(setting.formSelector));
 
     formList.forEach((formElement) => {
-        formElement.addEventListener('submit', (evt) => {
-            evt.preventDefault();
-        });
         setEventListener(formElement, setting);
     });
 }
