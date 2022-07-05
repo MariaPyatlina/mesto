@@ -1,3 +1,9 @@
+class FormValidator{
+
+}
+
+
+
 //Добавляет класс с ошибкой в форму ввода
 const showInputError = (formElement, inputElement, errorMessage, setting) => {
     const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
