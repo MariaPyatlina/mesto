@@ -33,10 +33,10 @@ const configuration = {
 
 
 
-const popupAddCardValidation = new FormValidator(configuration, locators.popupEditProfile); 
+const popupAddCardValidation = new FormValidator(configuration, locators.popupAddCard); 
 popupAddCardValidation.enableValidation();
 
-const popupEditProfileValidation = new FormValidator(configuration, locators.popupAddCard); 
+const popupEditProfileValidation = new FormValidator(configuration, locators.popupEditProfile); 
 popupEditProfileValidation.enableValidation();
 
 
@@ -46,6 +46,7 @@ popupEditProfileValidation.enableValidation();
 //Функция открытия попапа редактирования профиля
 function openPopupEditProfile() {
     openPopup(locators.popupEditProfile);
+    popupEditProfileValidation.hideErrorMessage();
 
     if(locators.popupEditProfile.classList.contains("popup_opened")){ //При открытии попапа подставляет значения в поля формы из профиля
         locators.nameFieldInPopup.value = locators.userName.textContent;
@@ -95,7 +96,8 @@ locators.popupFormTypeEdit.addEventListener('submit', handleProfileFormSubmit); 
 //Добавление карточки по кнопке +
 locators.addButton.addEventListener('click', () =>{
     locators.popupFormTypeAdd.reset();
-    
+    popupAddCardValidation.hideErrorMessage();
+
     openPopup(locators.popupAddCard)});  //Открыть попап добавления новой карточки
 locators.popupFormTypeAdd.addEventListener('submit', handleAddCardFormSubmit); //Сохранить новую карточку
 
