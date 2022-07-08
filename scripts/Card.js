@@ -14,7 +14,6 @@ export class Card{
     //Забирает разметку из html и клонирует содержимое шаблона карточки
     _getTemplate(){
         this._element = locators.cardTemplate.querySelector('.card').cloneNode(true);
-        console.log('this._element', this._element);
         return this._element;
     }
 
@@ -35,7 +34,6 @@ export class Card{
             this._removeCard();
         });
     };
-
 
     //открывает попап с картинкой
     _openPopupBigPicture = () => {

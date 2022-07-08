@@ -1,15 +1,5 @@
 import { locators } from './Locators.js';
 
-
-// const configuration = {
-//     formSelector: '.popup__form',  //форма в попапе
-//     inputSelector: '.popup__input-field', //поле ввода в форме
-//     submitButtonSelector: '.popup__save-button',  //кнопка Сохранить на форме
-//     inactiveButtonClass: 'popup__save-button_invalid',  //Неактивная кнопка Сохранить
-//     inputErrorClass: 'popup__input-field_type_error',  // Поле ввода подсвечено с ошибкой
-//     errorClass: 'popup__input-error_active'  //Текст ошибки становится видимым 
-// };
-
 export class FormValidator{
     constructor(setting, formElement){
         this._setting = setting;
@@ -24,25 +14,19 @@ export class FormValidator{
         inputElement.classList.add(this._setting.inputErrorClass);
         errorElement.textContent = errorMessage;
         errorElement.classList.add(this._setting.errorClass);
-        console.log('Ошибку показали');
     }
 
     hideErrorMessage (){
-        console.log(this._inputList);
         this._inputList.forEach((item) => {
-            console.log('hideErrorMessage', item);
             this._hideInputError(item)});
     }
 
     //Удаляет класс с ошибкой из формы ввода  
     _hideInputError (inputElement){
         const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`);
-        console.log('errorElement', errorElement);
         inputElement.classList.remove(this._setting.inputErrorClass);
         errorElement.classList.remove(this._setting.errorClass);
         errorElement.textContent = '';
-        console.log('errorElement.textContent', errorElement.textContent);
-        console.log('Ошибку скрыли');
     }
 
     //Проверяет валидность поля ввода  

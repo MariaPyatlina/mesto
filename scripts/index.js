@@ -3,21 +3,14 @@ import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
 import { locators } from './Locators.js';
 
-console.log (locators);
-
 
 //Заполняем страницу карточками из массива
 initialCards.forEach((item) => {
-    console.log('Заполняю карточками страницу');
     
     const card = new Card(item, '.card_template'); //Создадим экземпляр карточки
     const cardElement = card.generateCard(); //Создаем карточку и возвращаем наружу
     locators.sectionElementsContainer.append(cardElement); //Добавляем в Дом
 });
-
-
-
-
 
 const configuration = {
     formSelector: '.popup__form',  //форма в попапе
@@ -28,19 +21,12 @@ const configuration = {
     errorClass: 'popup__input-error_active'  //Текст ошибки становится видимым 
 };
 
-//enableValidation(configuration);
-
-
-
 
 const popupAddCardValidation = new FormValidator(configuration, locators.popupAddCard); 
 popupAddCardValidation.enableValidation();
 
 const popupEditProfileValidation = new FormValidator(configuration, locators.popupEditProfile); 
 popupEditProfileValidation.enableValidation();
-
-
-
 
 
 //Функция открытия попапа редактирования профиля
@@ -86,8 +72,6 @@ function closePopup(popup){
     document.removeEventListener('keydown', closePopupViaEsc);
 }
 
-
-
 //Слушатели кликов вне карточки
 //Редактирования профиля
 locators.editButton.addEventListener('click', openPopupEditProfile);  //По кнопке Редактировать открываем попап и передаем установленные значения в поля ввода
@@ -99,7 +83,7 @@ locators.addButton.addEventListener('click', () =>{
     popupAddCardValidation.hideErrorMessage();
 
     openPopup(locators.popupAddCard)});  //Открыть попап добавления новой карточки
-locators.popupFormTypeAdd.addEventListener('submit', handleAddCardFormSubmit); //Сохранить новую карточку
+    locators.popupFormTypeAdd.addEventListener('submit', handleAddCardFormSubmit); //Сохранить новую карточку
 
 
 

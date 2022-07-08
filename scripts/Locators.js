@@ -6,7 +6,6 @@ const profileArea = document.querySelector('.profile'); //Область Про�
 const addButton = profileArea.querySelector('.profile__add-button'); //Кнопка "Добавить"
 const profileContainer = document.querySelector('.profile__container'); 
 const editButton = profileContainer.querySelector('.profile__edit-button'); //Кнопка Редактировать
-console.log(editButton);
 const userName = profileContainer.querySelector('.profile__name'); //Имя пользователя
 const userProfession = profileContainer.querySelector('.profile__profession'); //Профессия пользователя
 
@@ -16,7 +15,7 @@ const sectionElementsContainer = document.querySelector('.cards-container'); //�
 const cardItem = sectionElementsContainer.querySelector('.card'); //Карточка
 
 //Шаблон карточки
-export const cardTemplate = document.querySelector('.card_template').content;  //Контент из шаблон карточки
+const cardTemplate = document.querySelector('.card_template').content;  //Контент из шаблон карточки
 const cardTemplateImage = cardTemplate.querySelector('.card__image');  //Картинка
 const cardTemplateTitle = cardTemplate.querySelector('.card__title');  //Название
 const cardTemplateLikeButton = cardTemplate.querySelector('.card__like-button');  //Лайк
@@ -39,11 +38,11 @@ const professionFieldInPopup = popupFormTypeEdit.querySelector('.popup__input-fi
 const saveButton = popupFormTypeEdit.querySelector('.popup__save-button'); //кнопка Сохранить
 
 //Попап картинки
-export const popupOpenPicture = document.querySelector('.popup_type_open-picture'); //Попап большой картинки
+const popupOpenPicture = document.querySelector('.popup_type_open-picture'); //Попап большой картинки
 const closePopupBigPictureButton = popupOpenPicture.querySelector('.popup__close-button'); //Кнопка Закрыть попап
 const captionBigPicture = popupOpenPicture.querySelector('.popup__caption');  //Подпись к картике
-export const pictureInPopup =  popupOpenPicture.querySelector('.popup__image');  //Картинка в попапе
-export const captionInPopup =  popupOpenPicture.querySelector('.popup__caption'); //Подпись в попапе
+const pictureInPopup =  popupOpenPicture.querySelector('.popup__image');  //Картинка в попапе
+const captionInPopup =  popupOpenPicture.querySelector('.popup__caption'); //Подпись в попапе
 
 export const locators = {
     popupList: popupList, //все попапы
