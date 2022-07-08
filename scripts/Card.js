@@ -1,46 +1,21 @@
-//+ Массив карточек
-const initialCards = [
-    {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
+import { openPopup } from './index.js';
+import { locators } from './Locators.js';
 
-//Класс карточки
-class Card{
-    //Свойства
+
+
+export class Card{
+
     constructor(data, cardSelector){
         this._name = data.name;
         this._link = data.link;
         this._cardSelector = cardSelector;
+        this._popupOpenPicture = document.querySelector('.popup_type_open-picture');
     }
-
-    //Методы
-    //Работаем с шаблоном карточки в разметке
-    _getTemplate(){//Забирает разметку из html и клонирует элемент
-        const cardElement = cardTemplate.querySelector('.card').cloneNode(true); // Клонируем содержимое шаблона карточки
-            
-        return cardElement;
+    //Забирает разметку из html и клонирует содержимое шаблона карточки
+    _getTemplate(){
+        this._element = locators.cardTemplate.querySelector('.card').cloneNode(true);
+        console.log('this._element', this._element);
+        return this._element;
     }
 
     //Навешивает слушателей на события
@@ -63,23 +38,21 @@ class Card{
 
 
     //открывает попап с картинкой
-    _openPopupBigPicture(){
-        openPopup(popupOpenPicture);
-        pictureInPopup.src =  this._element.querySelector('.card__image').src;
-        pictureInPopup.alt = this._element.querySelector('.card__title').textContent;
-        captionInPopup.textContent =  this._element.querySelector('.card__title').textContent;
+    _openPopupBigPicture = () => {
+        openPopup(this._popupOpenPicture);
+        locators.pictureInPopup.src =  this._element.querySelector('.card__image').src;
+        locators.pictureInPopup.alt = this._element.querySelector('.card__title').textContent;
+        locators.captionInPopup.textContent =  this._element.querySelector('.card__title').textContent;
     };
 
     //Переключает фон сердечка
     _toggleLikeCard(){
         this._element.querySelector('.card__like-button').classList.toggle("card__like-button_active"); //меняет фон сердечка
     };
-    
 
     //Удаляет карточку
     _removeCard(){
-      const cardForRemoving = this._element.querySelector('.card__delete-button').closest('.card');
-      cardForRemoving.remove();
+        this._element.querySelector('.card__delete-button').closest('.card').remove();
     };
 
     generateCard(){
@@ -95,15 +68,4 @@ class Card{
         // Вернём элемент наружу
         return this._element;
     }
-   
-    }
-
-
-initialCards.forEach((item) => {
-    //Создадим экземпляр карточки
-    const card = new Card(item, '.card_template');
-    //Создаем карточку и возвращаем наружу
-    const cardElement = card.generateCard();
-    //Добавляем в Дом
-    sectionElementsContainer.append(cardElement);
-});
+}

@@ -1,210 +1,43 @@
-// TODO Подключить импортируемые файлы из card.js и validate.js
-// import { } from './card.js';
-// import { } from './validate.js';
+import { initialCards } from './InitialCards.js';
+import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
+import { locators } from './Locators.js';
 
-const popupList = document.querySelectorAll('.popup'); //все попапы
-const closePopupButtonList = document.querySelectorAll('.popup__close-button'); //все кнопки закрыть на попапах
-
-//Секция профиль
-const profileArea = document.querySelector('.profile'); //Область Профиль
-const addButton = profileArea.querySelector('.profile__add-button'); //Кнопка "Добавить"
-const profileContainer = document.querySelector('.profile__container'); 
-const editButton = profileContainer.querySelector('.profile__edit-button'); //Кнопка Редактировать
-const userName = profileContainer.querySelector('.profile__name'); //Имя пользователя
-const userProfession = profileContainer.querySelector('.profile__profession'); //Профессия пользователя
-
-//Секция Элементы
-const sectionElements = document.querySelector('.elements');  //Блок Элементы
-const sectionElementsContainer = document.querySelector('.cards-container'); //Блок с карточками
-const cardItem = sectionElementsContainer.querySelector('.card'); //Карточка
-
-//Шаблон карточки
-const cardTemplate = document.querySelector('.card_template').content;  //Контент из шаблон карточки
-const cardTemplateImage = cardTemplate.querySelector('.card__image');  //Картинка
-const cardTemplateTitle = cardTemplate.querySelector('.card__title');  //Название
-const cardTemplateLikeButton = cardTemplate.querySelector('.card__like-button');  //Лайк
-const cardTemplateDeleteButton = cardTemplate.querySelector('.card__delete-button');  //Мусорка
-
-//Попап добавления нового места
-const popupAddCard = document.querySelector('.popup_type_add-card'); //Нашли попап на станице
-const closeAddCardPopupButton = popupAddCard.querySelector('.popup__close-button');  //Кнопка Закрыть попап
-const popupFormTypeAdd = popupAddCard.querySelector('.popup__form');  //Форма с полями ввода и кнопкой сохранить
-const placeNameInPopupAddCard = popupFormTypeAdd.querySelector('.popup__input-field_place_name'); //Поле Название
-const placeLinkInPopupAddCard = popupFormTypeAdd.querySelector('.popup__input-field_place_link'); //Поле Ссылка
-const saveNewCardButton = popupFormTypeAdd.querySelector('.popup__save-button');  //Кнопка Сохранить
-
-//попап редактирования профиля
-const popupEditProfile = document.querySelector('.popup_type_edit-profile'); //Окно попапа
-const closeEditProfileButton = popupEditProfile.querySelector('.popup__close-button');  //Кнопка Закрыть попап
-const popupFormTypeEdit = popupEditProfile.querySelector('.popup__form'); //Область поле ввода+кнопка
-const nameFieldInPopup = popupFormTypeEdit.querySelector('.popup__input-field_name_name'); //Поле Имя
-const professionFieldInPopup = popupFormTypeEdit.querySelector('.popup__input-field_name_profession'); //поле Профессия
-const saveButton = popupFormTypeEdit.querySelector('.popup__save-button'); //кнопка Сохранить
-
-//Попап картинки
-const popupOpenPicture = document.querySelector('.popup_type_open-picture'); //Попап большой картинки
-const closePopupBigPictureButton = popupOpenPicture.querySelector('.popup__close-button'); //Кнопка Закрыть попап
-const captionBigPicture = popupOpenPicture.querySelector('.popup__caption');  //Подпись к картике
-const pictureInPopup =  popupOpenPicture.querySelector('.popup__image');  //Картинка в попапе
-const captionInPopup =  popupOpenPicture.querySelector('.popup__caption'); //Подпись в попапе
-
-//+ Функция добавления карточек на страницу из массива
-// function addCardToPage(arrayCard){
-//     for (let i=0; i<arrayCard.length; i++){
-//         sectionElementsContainer.append(createCard(arrayCard[i].name, arrayCard[i].link));
-//     }
-// }
-// addCardToPage(initialCards);
-
-//Функция создания карточки
-// function createCard(title, link){
-//     const cardElement = cardTemplate.querySelector('.card').cloneNode(true); // Клонируем содержимое шаблона карточки
-
-//     cardElement.querySelector('.card__image').src = link;  // заполняем в ней поля
-//     cardElement.querySelector('.card__image').alt = title;
-//     cardElement.querySelector('.card__title').textContent = title;
-  
-//     // повесить слушателей
-//     //на просмотр картинки
-//     cardElement.querySelector('.card__cover').addEventListener('click', function openPopupBigPicture(){
-//         openPopup(popupOpenPicture);
-//         pictureInPopup.src = cardElement.querySelector('.card__image').src;
-//         pictureInPopup.alt = cardElement.querySelector('.card__title').textContent;
-//         captionInPopup.textContent =  cardElement.querySelector('.card__title').textContent;
-//     });
-
-//     //На кнопку лайк
-//     cardElement.querySelector('.card__like-button').addEventListener('click', function toggleLikeCard(){
-//         cardElement.querySelector('.card__like-button').classList.toggle("card__like-button_active"); //меняет фон сердечка
-//     });
-
-//     //На кнопку удалить
-//     cardElement.querySelector('.card__delete-button').addEventListener('click', function removeCard(){
-//       const cardForRemoving = cardElement.querySelector('.card__delete-button').closest('.card');
-//       cardForRemoving.remove();
-//     });
-
-//     return cardElement;  // вернуть значение карточки
-// }
+console.log (locators);
 
 
-//+ Массив карточек
-const initialCards = [
-    {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
-
-//Класс карточки
-class Card{
-    //Свойства
-    constructor(data, cardSelector){
-        this._name = data.name;
-        this._link = data.link;
-        this._cardSelector = cardSelector;
-    }
-
-    //Методы
-    //Работаем с шаблоном карточки в разметке
-    _getTemplate(){//Забирает разметку из html и клонирует элемент
-        const cardElement = cardTemplate.querySelector('.card').cloneNode(true); // Клонируем содержимое шаблона карточки
-            
-        return cardElement;
-    }
-
-    //Навешивает слушателей на события
-    _setEventListeners(){
-        //на клик по картинке
-        this._element.querySelector('.card__cover').addEventListener('click', ()=>{
-            this._openPopupBigPicture();
-        });
-
-        //на клик по кнопке Лайк   
-        this._element.querySelector('.card__like-button').addEventListener('click', ()=>{
-            this._toggleLikeCard();
-        });
-
-        //на клик по мусорке
-        this._element.querySelector('.card__delete-button').addEventListener('click', ()=>{
-            this._removeCard();
-        });
-    };
-
-    //открывает попап с картинкой
-    _openPopupBigPicture(){
-        openPopup(popupOpenPicture);
-        pictureInPopup.src =  this._element.querySelector('.card__image').src;
-        pictureInPopup.alt = this._element.querySelector('.card__title').textContent;
-        captionInPopup.textContent =  this._element.querySelector('.card__title').textContent;
-    };
-
-    //Переключает фон сердечка
-    _toggleLikeCard(){
-        this._element.querySelector('.card__like-button').classList.toggle("card__like-button_active"); //меняет фон сердечка
-    };
-    
-    //Удаляет карточку
-    _removeCard(){
-      const cardForRemoving = this._element.querySelector('.card__delete-button').closest('.card');
-      cardForRemoving.remove();
-    };
-
-    generateCard(){
-        // Запишем разметку в приватное поле _element. Так у других элементов появится доступ к ней.
-        this._element = this._getTemplate();
-        this._setEventListeners();
-
-        // Добавим данные
-        this._element.querySelector('.card__image').src = this._link;
-        this._element.querySelector('.card__image').alt = this._name;
-        this._element.querySelector('.card__title').textContent = this._name;
-
-        // Вернём элемент наружу
-        return this._element;
-    }
-}
-
+//Заполняем страницу карточками из массива
 initialCards.forEach((item) => {
-    //Создадим экземпляр карточки
-    const card = new Card(item, '.card_template');
-    //Создаем карточку и возвращаем наружу
-    const cardElement = card.generateCard();
-    //Добавляем в Дом
-    sectionElementsContainer.append(cardElement);
+    console.log('Заполняю карточками страницу');
+    
+    const card = new Card(item, '.card_template'); //Создадим экземпляр карточки
+    const cardElement = card.generateCard(); //Создаем карточку и возвращаем наружу
+    locators.sectionElementsContainer.append(cardElement); //Добавляем в Дом
 });
 
 
 
 
 
+const configuration = {
+    formSelector: '.popup__form',  //форма в попапе
+    inputSelector: '.popup__input-field', //поле ввода в форме
+    submitButtonSelector: '.popup__save-button',  //кнопка Сохранить на форме
+    inactiveButtonClass: 'popup__save-button_invalid',  //Неактивная кнопка Сохранить
+    inputErrorClass: 'popup__input-field_type_error',  // Поле ввода подсвечено с ошибкой
+    errorClass: 'popup__input-error_active'  //Текст ошибки становится видимым 
+};
+
+//enableValidation(configuration);
 
 
 
 
+const popupAddCardValidation = new FormValidator(configuration, locators.popupEditProfile); 
+popupAddCardValidation.enableValidation();
 
-
-
+const popupEditProfileValidation = new FormValidator(configuration, locators.popupAddCard); 
+popupEditProfileValidation.enableValidation();
 
 
 
@@ -212,32 +45,36 @@ initialCards.forEach((item) => {
 
 //Функция открытия попапа редактирования профиля
 function openPopupEditProfile() {
-    openPopup(popupEditProfile);
+    openPopup(locators.popupEditProfile);
 
-    if(popupEditProfile.classList.contains("popup_opened")){ //При открытии попапа подставляет значения в поля формы из профиля
-        nameFieldInPopup.value = userName.textContent;
-        professionFieldInPopup.value = userProfession.textContent;
+    if(locators.popupEditProfile.classList.contains("popup_opened")){ //При открытии попапа подставляет значения в поля формы из профиля
+        locators.nameFieldInPopup.value = locators.userName.textContent;
+        locators.professionFieldInPopup.value = locators.userProfession.textContent;
     }
 }
 
 //Функция сохраняет введенные данные в профиле пользователя
 function handleProfileFormSubmit (evt) {
     evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-    userName.textContent = nameFieldInPopup.value;  //Передаем в профиль пользователя значения из полей input попапа
-    userProfession.textContent = professionFieldInPopup.value; 
-    closePopup(popupEditProfile); //Вызываем функцию закрывающую попап
+    locators.userName.textContent = locators.nameFieldInPopup.value;  //Передаем в профиль пользователя значения из полей input попапа
+    locators.userProfession.textContent = locators.professionFieldInPopup.value; 
+    closePopup(locators.popupEditProfile); //Вызываем функцию закрывающую попап
 }
 
 //Функция сохраняющая введенные данные нового места
 function handleAddCardFormSubmit (evt) {
     evt.preventDefault();
-    sectionElementsContainer.prepend(createCard(placeNameInPopupAddCard.value, placeLinkInPopupAddCard.value)); //Забираем значения из полей ввода и передали их в функцию создания карточки и Добавляем карточку в начало блока с карточками
-    closePopup(popupAddCard);
-    popupFormTypeAdd.reset();
+    locators.sectionElementsContainer.prepend( 
+        new Card({name:locators.placeNameInPopupAddCard.value, 
+            link:locators.placeLinkInPopupAddCard.value }, '.card_template').generateCard());//TODO ТУт нужно вызвать создание экземпляра класса карточки
+    
+        //Забираем значения из полей ввода и передали их в функцию создания карточки и Добавляем карточку в начало блока с карточками
+    closePopup(locators.popupAddCard);
+    locators.popupFormTypeAdd.reset();
 }
 
 //Функция открытия попапа
-function openPopup(popup){
+export function openPopup(popup){
     popup.classList.add("popup_opened");
     document.addEventListener('keydown', closePopupViaEsc);
 }
@@ -248,16 +85,26 @@ function closePopup(popup){
     document.removeEventListener('keydown', closePopupViaEsc);
 }
 
+
+
 //Слушатели кликов вне карточки
 //Редактирования профиля
-editButton.addEventListener('click', openPopupEditProfile);  //По кнопке Редактировать открываем попап и передаем установленные значения в поля ввода
-popupFormTypeEdit.addEventListener('submit', handleProfileFormSubmit);  // По кнопке Submit (Сохранить) вызываем функцию обновляющую данные в профиле пользователя
+locators.editButton.addEventListener('click', openPopupEditProfile);  //По кнопке Редактировать открываем попап и передаем установленные значения в поля ввода
+locators.popupFormTypeEdit.addEventListener('submit', handleProfileFormSubmit);  // По кнопке Submit (Сохранить) вызываем функцию обновляющую данные в профиле пользователя
 
 //Добавление карточки по кнопке +
-addButton.addEventListener('click', () =>{openPopup(popupAddCard)});  //Открыть попап добавления новой карточки
-popupFormTypeAdd.addEventListener('submit', handleAddCardFormSubmit); //Сохранить новую карточку
+locators.addButton.addEventListener('click', () =>{
+    locators.popupFormTypeAdd.reset();
+    
+    openPopup(locators.popupAddCard)});  //Открыть попап добавления новой карточки
+locators.popupFormTypeAdd.addEventListener('submit', handleAddCardFormSubmit); //Сохранить новую карточку
 
-//функция закрытия попапа по кнопке ESc
+
+
+
+
+//функция закрытия попапа 
+//по кнопке ESc
 function closePopupViaEsc(evt){
     if (evt.key === "Escape") {
         const popupExit = document.querySelector('.popup_opened');
@@ -265,9 +112,9 @@ function closePopupViaEsc(evt){
     }
 };
 
-//Закрытие попапа по клику вне попапа или по крестику
-popupList.forEach((popup) => {
-    popup.addEventListener('click', function checkClickInPopup(evt) {
+//По клику вне попапа или по крестику
+locators.popupList.forEach((popup) => {
+    popup.addEventListener('mousedown', function checkClickInPopup(evt) {
         if (evt.target.classList.contains("popup") || evt.target.classList.contains("popup__close-button")){
             closePopup(popup);
         };
