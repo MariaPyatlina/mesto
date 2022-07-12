@@ -1,4 +1,4 @@
-import { initialCards } from './InitialCards.js';
+import { initialCards } from './initialCards.js';
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
 import { locators } from './locators.js';
@@ -14,26 +14,24 @@ const configurationForValidator = {
 
 
 //Заполняем страницу карточками из массива
-initialCards.forEach((item) => {
-    console.log('Вызвали функцию создания карточки при пробеге по массиву');
-    renderCard(item);
-   // const card = new Card(item, '.card_template'); //Создадим экземпляр карточки
-   // const cardElement = card.generateCard(); //Создаем карточку и возвращаем наружу
-   // locators.sectionElementsContainer.append(cardElement); //Добавляем в Дом
-});
+initialCards.forEach(addCardToSection);
+
 
 //Функция создания карточки из класса
 function renderCard(item){
-    const card = new Card(item, '.card_template'); //Создадим экземпляр карточки
-    const cardElement = card.generateCard(); //Создаем карточку и возвращаем наружу
+    const card = new Card(item, '.card_template'); //создали экземпляр класса карточки
+    const newCard = card.generateCard(); //Создаем карточку и возвращаем наружу
     
-    //return cardElement;
-    locators.sectionElementsContainer.append(cardElement); //Добавляем в Дом
+    return newCard;
 }
 
+//Добавление карточки в дом
+function addCardToSection(card){
+    const cardElement = renderCard(card);
+    locators.sectionElementsContainer.append(cardElement);
+}
 
-
-
+//Валидация полей в попапах
 const popupAddCardValidation = new FormValidator(configurationForValidator, locators.popupAddCard); 
 popupAddCardValidation.enableValidation();
 
@@ -60,12 +58,15 @@ function handleProfileFormSubmit (evt) {
 //Функция сохраняющая введенные данные нового места
 function handleAddCardFormSubmit (evt) {
     evt.preventDefault();
-    locators.sectionElementsContainer.prepend( 
-        new Card({name:locators.placeNameInPopupAddCard.value, 
-            link:locators.placeLinkInPopupAddCard.value }, '.card_template').generateCard());//TODO ТУт нужно вызвать создание экземпляра класса карточки
-        renderCard({name:locators.placeNameInPopupAddCard.value, link:locators.placeLinkInPopupAddCard.value });
-
-        //Забираем значения из полей ввода и передали их в функцию создания карточки и Добавляем карточку в начало блока с карточками
+    //Добавляем созданную карточку в начало
+    locators.sectionElementsContainer.prepend(
+        renderCard(
+            {name:locators.placeNameInPopupAddCard.value, 
+                link:locators.placeLinkInPopupAddCard.value
+            }
+        )
+    );
+        
     closePopup(locators.popupAddCard);
     locators.popupFormTypeAdd.reset();
 }
