@@ -11,7 +11,8 @@ export class Card{
     }
     //Забирает разметку из html и клонирует содержимое шаблона карточки
     _getTemplate(){
-        this._element = locators.cardTemplate.querySelector('.card').cloneNode(true);
+        //this._element = locators.cardTemplate.querySelector('.card').cloneNode(true);
+        this._element = document.querySelector(this._cardSelector).content.cloneNode(true);
         return this._element;
     }
 
