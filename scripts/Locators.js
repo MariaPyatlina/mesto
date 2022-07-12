@@ -1,5 +1,6 @@
-const popupList = document.querySelectorAll('.popup'); //все попапы
-const closePopupButtonList = document.querySelectorAll('.popup__close-button'); //все кнопки закрыть на попапах
+//все попапы и кнопки закрыть на попапах
+const popupList = document.querySelectorAll('.popup'); 
+const closePopupButtonList = document.querySelectorAll('.popup__close-button');
 
 //Секция профиль
 const profileArea = document.querySelector('.profile'); //Область Профиль

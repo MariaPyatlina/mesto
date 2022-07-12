@@ -1,4 +1,4 @@
-//+ Массив карточек
+//Массив карточек
 export const initialCards = [
     {
       name: 'Архыз',
