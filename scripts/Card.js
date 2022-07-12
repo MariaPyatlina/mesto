@@ -1,7 +1,5 @@
 import { openPopup } from './index.js';
-import { locators } from './Locators.js';
-
-
+import { locators } from './locators.js';
 
 export class Card{
 

@@ -1,18 +1,9 @@
 import { initialCards } from './InitialCards.js';
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
-import { locators } from './Locators.js';
+import { locators } from './locators.js';
 
-
-//Заполняем страницу карточками из массива
-initialCards.forEach((item) => {
-    
-    const card = new Card(item, '.card_template'); //Создадим экземпляр карточки
-    const cardElement = card.generateCard(); //Создаем карточку и возвращаем наружу
-    locators.sectionElementsContainer.append(cardElement); //Добавляем в Дом
-});
-
-const configuration = {
+const configurationForValidator = {
     formSelector: '.popup__form',  //форма в попапе
     inputSelector: '.popup__input-field', //поле ввода в форме
     submitButtonSelector: '.popup__save-button',  //кнопка Сохранить на форме
@@ -22,10 +13,31 @@ const configuration = {
 };
 
 
-const popupAddCardValidation = new FormValidator(configuration, locators.popupAddCard); 
+//Заполняем страницу карточками из массива
+initialCards.forEach((item) => {
+    console.log('Вызвали функцию создания карточки при пробеге по массиву');
+    renderCard(item);
+   // const card = new Card(item, '.card_template'); //Создадим экземпляр карточки
+   // const cardElement = card.generateCard(); //Создаем карточку и возвращаем наружу
+   // locators.sectionElementsContainer.append(cardElement); //Добавляем в Дом
+});
+
+//Функция создания карточки из класса
+function renderCard(item){
+    const card = new Card(item, '.card_template'); //Создадим экземпляр карточки
+    const cardElement = card.generateCard(); //Создаем карточку и возвращаем наружу
+    
+    //return cardElement;
+    locators.sectionElementsContainer.append(cardElement); //Добавляем в Дом
+}
+
+
+
+
+const popupAddCardValidation = new FormValidator(configurationForValidator, locators.popupAddCard); 
 popupAddCardValidation.enableValidation();
 
-const popupEditProfileValidation = new FormValidator(configuration, locators.popupEditProfile); 
+const popupEditProfileValidation = new FormValidator(configurationForValidator, locators.popupEditProfile); 
 popupEditProfileValidation.enableValidation();
 
 
@@ -33,11 +45,8 @@ popupEditProfileValidation.enableValidation();
 function openPopupEditProfile() {
     openPopup(locators.popupEditProfile);
     popupEditProfileValidation.hideErrorMessage();
-
-    if(locators.popupEditProfile.classList.contains("popup_opened")){ //При открытии попапа подставляет значения в поля формы из профиля
-        locators.nameFieldInPopup.value = locators.userName.textContent;
-        locators.professionFieldInPopup.value = locators.userProfession.textContent;
-    }
+    locators.nameFieldInPopup.value = locators.userName.textContent;
+    locators.professionFieldInPopup.value = locators.userProfession.textContent;
 }
 
 //Функция сохраняет введенные данные в профиле пользователя
@@ -54,7 +63,8 @@ function handleAddCardFormSubmit (evt) {
     locators.sectionElementsContainer.prepend( 
         new Card({name:locators.placeNameInPopupAddCard.value, 
             link:locators.placeLinkInPopupAddCard.value }, '.card_template').generateCard());//TODO ТУт нужно вызвать создание экземпляра класса карточки
-    
+        renderCard({name:locators.placeNameInPopupAddCard.value, link:locators.placeLinkInPopupAddCard.value });
+
         //Забираем значения из полей ввода и передали их в функцию создания карточки и Добавляем карточку в начало блока с карточками
     closePopup(locators.popupAddCard);
     locators.popupFormTypeAdd.reset();
@@ -74,19 +84,18 @@ function closePopup(popup){
 
 //Слушатели кликов вне карточки
 //Редактирования профиля
-locators.editButton.addEventListener('click', openPopupEditProfile);  //По кнопке Редактировать открываем попап и передаем установленные значения в поля ввода
+locators.buttonEdit.addEventListener('click', openPopupEditProfile);  //По кнопке Редактировать открываем попап и передаем установленные значения в поля ввода
 locators.popupFormTypeEdit.addEventListener('submit', handleProfileFormSubmit);  // По кнопке Submit (Сохранить) вызываем функцию обновляющую данные в профиле пользователя
 
 //Добавление карточки по кнопке +
-locators.addButton.addEventListener('click', () =>{
-    locators.popupFormTypeAdd.reset();
-    popupAddCardValidation.hideErrorMessage();
-
-    openPopup(locators.popupAddCard)});  //Открыть попап добавления новой карточки
-    locators.popupFormTypeAdd.addEventListener('submit', handleAddCardFormSubmit); //Сохранить новую карточку
-
-
-
+locators.buttonAdd.addEventListener('click', () =>{
+    locators.popupFormTypeAdd.reset(); //Очистить поля ввода
+    popupAddCardValidation.hideErrorMessage();  //Скрыть ошибки
+    popupAddCardValidation.toggleButtonState();
+    openPopup(locators.popupAddCard);//Открыть попап добавления новой карточки
+});  
+    
+locators.popupFormTypeAdd.addEventListener('submit', handleAddCardFormSubmit); //Сохранить новую карточку
 
 
 //функция закрытия попапа 

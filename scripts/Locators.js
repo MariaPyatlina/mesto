@@ -3,9 +3,9 @@ const closePopupButtonList = document.querySelectorAll('.popup__close-button'); 
 
 //Секция профиль
 const profileArea = document.querySelector('.profile'); //Область Профиль
-const addButton = profileArea.querySelector('.profile__add-button'); //Кнопка "Добавить"
+const buttonAdd = profileArea.querySelector('.profile__add-button'); //Кнопка "Добавить"
 const profileContainer = document.querySelector('.profile__container'); 
-const editButton = profileContainer.querySelector('.profile__edit-button'); //Кнопка Редактировать
+const buttonEdit = profileContainer.querySelector('.profile__edit-button'); //Кнопка Редактировать
 const userName = profileContainer.querySelector('.profile__name'); //Имя пользователя
 const userProfession = profileContainer.querySelector('.profile__profession'); //Профессия пользователя
 
@@ -23,7 +23,7 @@ const cardTemplateDeleteButton = cardTemplate.querySelector('.card__delete-butto
 
 //Попап добавления нового места
 const popupAddCard = document.querySelector('.popup_type_add-card'); //Нашли попап на станице
-const closeAddCardPopupButton = popupAddCard.querySelector('.popup__close-button');  //Кнопка Закрыть попап
+const buttonCloseAddCardPopup = popupAddCard.querySelector('.popup__close-button');  //Кнопка Закрыть попап
 const popupFormTypeAdd = popupAddCard.querySelector('.popup__form');  //Форма с полями ввода и кнопкой сохранить
 const placeNameInPopupAddCard = popupFormTypeAdd.querySelector('.popup__input-field_place_name'); //Поле Название
 const placeLinkInPopupAddCard = popupFormTypeAdd.querySelector('.popup__input-field_place_link'); //Поле Ссылка
@@ -35,7 +35,7 @@ const closeEditProfileButton = popupEditProfile.querySelector('.popup__close-but
 const popupFormTypeEdit = popupEditProfile.querySelector('.popup__form'); //Область поле ввода+кнопка
 const nameFieldInPopup = popupFormTypeEdit.querySelector('.popup__input-field_name_name'); //Поле Имя
 const professionFieldInPopup = popupFormTypeEdit.querySelector('.popup__input-field_name_profession'); //поле Профессия
-const saveButton = popupFormTypeEdit.querySelector('.popup__save-button'); //кнопка Сохранить
+const buttonSave = popupFormTypeEdit.querySelector('.popup__save-button'); //кнопка Сохранить
 
 //Попап картинки
 const popupOpenPicture = document.querySelector('.popup_type_open-picture'); //Попап большой картинки
@@ -50,9 +50,9 @@ export const locators = {
 
 //Секция профиль
     profileArea: profileArea, //Область Профиль
-    addButton: addButton, //Кнопка "Добавить"
+    buttonAdd: buttonAdd, //Кнопка "Добавить"
     profileContainer: profileContainer, 
-    editButton: editButton, //Кнопка Редактировать
+    buttonEdit: buttonEdit, //Кнопка Редактировать
     userName: userName, //Имя пользователя
     userProfession: userProfession, //Профессия пользователя
 
@@ -70,7 +70,7 @@ export const locators = {
 
 //Попап добавления нового места
     popupAddCard: popupAddCard, //Нашли попап на станице
-    closeAddCardPopupButton: closeAddCardPopupButton,  //Кнопка Закрыть попап
+    buttonCloseAddCardPopup: buttonCloseAddCardPopup,  //Кнопка Закрыть попап
     popupFormTypeAdd: popupFormTypeAdd,  //Форма с полями ввода и кнопкой сохранить
     placeNameInPopupAddCard: placeNameInPopupAddCard, //Поле Название
     placeLinkInPopupAddCard: placeLinkInPopupAddCard, //Поле Ссылка
@@ -82,7 +82,7 @@ export const locators = {
     popupFormTypeEdit: popupFormTypeEdit, //Область поле ввода+кнопка
     nameFieldInPopup: nameFieldInPopup, //Поле Имя
     professionFieldInPopup: professionFieldInPopup, //поле Профессия
-    saveButton: saveButton, //кнопка Сохранить
+    buttonSave: buttonSave, //кнопка Сохранить
 
 //Попап картинки
     popupOpenPicture: popupOpenPicture, //Попап большой картинки

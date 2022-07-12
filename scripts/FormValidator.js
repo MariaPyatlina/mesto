@@ -1,4 +1,4 @@
-import { locators } from './Locators.js';
+import { locators } from './locators.js';
 
 export class FormValidator{
     constructor(setting, formElement){
@@ -14,11 +14,14 @@ export class FormValidator{
         inputElement.classList.add(this._setting.inputErrorClass);
         errorElement.textContent = errorMessage;
         errorElement.classList.add(this._setting.errorClass);
+        console.log('Добавляет класс с ошибкой в форму ввода');
     }
 
+    //Скрывает сообщение об ошибке на форме ввода
     hideErrorMessage (){
         this._inputList.forEach((item) => {
             this._hideInputError(item)});
+            console.log('Скрывает сообщение с ошибкой');
     }
 
     //Удаляет класс с ошибкой из формы ввода  
@@ -27,10 +30,12 @@ export class FormValidator{
         inputElement.classList.remove(this._setting.inputErrorClass);
         errorElement.classList.remove(this._setting.errorClass);
         errorElement.textContent = '';
+        console.log('Удаляет класс с ошибкой из формы ввода');
     }
 
     //Проверяет валидность поля ввода  
     _isValid(inputElement){
+        console.log('Проверяет валидность поля ввода');
         //если значение в поле ввода не валидно - покажем ошибку
         if (!inputElement.validity.valid) {
             this._showInputError(inputElement, inputElement.validationMessage); 
@@ -42,6 +47,7 @@ export class FormValidator{
 
     //Проверяет есть ли в инпутах хотя бы одно невалидное значение. Возвращает true , если находит
     _hasInvalidInput(){
+        console.log('Проверяет есть ли в инпутах хотя бы одно невалидное значение. Возвращает true , если находит');
         return this._inputList.some((inputElement) => {
             return !inputElement.validity.valid;
         })
@@ -49,12 +55,14 @@ export class FormValidator{
 
     //Функция делает кнопку в форме неактивной
     _disableButton(){
+        console.log('Функция делает кнопку в форме неактивной');
         this._buttonElement.classList.add(this._setting.inactiveButtonClass);
         this._buttonElement.setAttribute('disabled', true);
     }
 
     //Переключает состояние кнопки Сохранить, если валидация пройдена или нет
     toggleButtonState(){
+        console.log('Переключает состояние кнопки Сохранить, если валидация пройдена или нет');
         if (this._hasInvalidInput()) {
             this._buttonElement.classList.add(this._setting.inactiveButtonClass);
             this._buttonElement.setAttribute('disabled', true);
@@ -68,6 +76,7 @@ export class FormValidator{
 
     //Функция находит все поля ввода на форме и вешает на них слушателя на input. Инпут проверяется на валидность
     _setEventListener(){
+        console.log('Функция находит все поля ввода на форме и вешает на них слушателя на input. Инпут проверяется на валидность');
         this.toggleButtonState();
 
         this._inputList.forEach((inputElement) => {
@@ -80,6 +89,9 @@ export class FormValidator{
 
     //Функция находит все формы и вешает на них обработчиков
     enableValidation(){
+        //console.log('повесил обработчика', this._formElement);
+        //this._setting.formSelector._setEventListener();
+        console.log('Функция находит все формы и вешает на них обработчиков');
         this._formList = Array.from(document.querySelectorAll(this._setting.formSelector));
 
         this._formList.forEach((formElement) => {
