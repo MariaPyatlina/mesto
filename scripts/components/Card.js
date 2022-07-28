@@ -1,13 +1,10 @@
-import { openPopup } from './index.js';
-import { locators } from './locators.js';
-
-export class Card{
-
-    constructor(data, cardSelector){
-        this._name = data.name;
-        this._link = data.link;
+export default class Card{
+    constructor({data, cardSelector, handleCardClick}){
+        this._name = data.place_name;
+        this._link = data.place_link;
         this._cardSelector = cardSelector;
         this._popupOpenPicture = document.querySelector('.popup_type_open-picture');
+        this._handleCardClick = handleCardClick; //функция должна открывать попап с картинкой при клике на карточку
     }
     
     _getTemplate(){ //Забирает разметку из html и клонирует содержимое шаблона карточки
@@ -24,7 +21,7 @@ export class Card{
     _setEventListeners(){
         //на клик по картинке
         this._cardImage.addEventListener('click', ()=>{
-            this._openPopupBigPicture();
+            this._handleCardClick(this._name, this._link); //
         });
 
         //на клик по кнопке Лайк   
@@ -37,16 +34,6 @@ export class Card{
             this._removeCard();
         });
     };
-
-    //открывает попап с картинкой
-    _openPopupBigPicture = () => {
-        openPopup(this._popupOpenPicture);
-
-        locators.pictureInPopup.src = this._link;
-        locators.pictureInPopup.alt = this._name;
-        locators.captionInPopup.textContent = this._name;
-    };
-
 
     _toggleLikeCard(){ //Переключает фон сердечка
         this._likeButton.classList.toggle("card__like-button_active"); //меняет фон сердечка

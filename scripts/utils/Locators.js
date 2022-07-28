@@ -3,9 +3,9 @@ const closePopupButtonList = document.querySelectorAll('.popup__close-button'); 
 
 //Секция профиль
 const profileArea = document.querySelector('.profile'); //Область Профиль
-const buttonAdd = profileArea.querySelector('.profile__add-button'); //Кнопка "Добавить"
+export const buttonAdd = profileArea.querySelector('.profile__add-button'); //Кнопка "Добавить"
 const profileContainer = document.querySelector('.profile__container'); 
-const buttonEdit = profileContainer.querySelector('.profile__edit-button'); //Кнопка Редактировать
+export const buttonEdit = profileContainer.querySelector('.profile__edit-button'); //Кнопка Редактировать
 const userName = profileContainer.querySelector('.profile__name'); //Имя пользователя
 const userProfession = profileContainer.querySelector('.profile__profession'); //Профессия пользователя
 
@@ -22,9 +22,9 @@ const cardTemplateLikeButton = cardTemplate.querySelector('.card__like-button');
 const cardTemplateDeleteButton = cardTemplate.querySelector('.card__delete-button');  //Мусорка
 
 //Попап добавления нового места
-const popupAddCard = document.querySelector('.popup_type_add-card'); //Нашли попап на станице
+export const popupAddCard = document.querySelector('.popup_type_add-card'); //Нашли попап на станице
 const buttonCloseAddCardPopup = popupAddCard.querySelector('.popup__close-button');  //Кнопка Закрыть попап
-const popupFormTypeAdd = popupAddCard.querySelector('.popup__form');  //Форма с полями ввода и кнопкой сохранить
+export const popupFormTypeAdd = popupAddCard.querySelector('.popup__form');  //Форма с полями ввода и кнопкой сохранить
 const placeNameInPopupAddCard = popupFormTypeAdd.querySelector('.popup__input-field_place_name'); //Поле Название
 const placeLinkInPopupAddCard = popupFormTypeAdd.querySelector('.popup__input-field_place_link'); //Поле Ссылка
 const saveNewCardButton = popupFormTypeAdd.querySelector('.popup__save-button');  //Кнопка Сохранить
