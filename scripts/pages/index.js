@@ -2,12 +2,12 @@ import { initialCards } from '../utils/InitialCards.js';
 import Card from '../components/Card.js';
 import Section from '../components/Section.js';
 import FormValidator from '../components/FormValidator.js';
-import { locators } from '../utils/Locators.js';
+import { locators } from '../utils/locators.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import UserInfo from '../components/UserInfo.js';
 
-import {buttonEdit, buttonAdd, popupFormTypeAdd} from '../utils/Locators.js';
+import {buttonEdit, buttonAdd, popupFormTypeAdd} from '../utils/locators.js';
 
 const configurationForValidator = {
     formSelector: '.popup__form',  //форма в попапе
