@@ -3,23 +3,23 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="pages/index.css">
+        <!-- <link rel="stylesheet" href="pages/index.css"> -->
         <title>Mesto</title>
     </head>
 
     <body class="page">
             <header class="header">
-                <img class="header__logo" src="images/logo.svg" alt="Логотип Место Россия">
+                <img class="header__logo" src="<%=require('./images/logo.svg')%>" alt="Логотип Место Россия">
             </header>
             <main class="content">
                 <section class="profile">
-                    <div class="profile__container">
-                        <img class="profile__avatar" src="images/avatar.jpg" alt="Аватар">
+                    <div class="profile__container"> 
+                        <img class="profile__avatar" src="<%=require('./images/avatar.jpg')%>" alt="Аватар">
                         <div class="profile__info">
                             <div class="profile__title-container">
                                 <h1 class="profile__name">Жак-Ив Кусто</h1>
                                 <button type="button" class="profile__edit-button">
-                                    <img class="profile__edit-image" src="images/button_icon_edit.svg" alt="Редактировать профиль">
+                                    <img class="profile__edit-image" src="<%=require('./images/button_icon_edit.svg')%>" alt="Редактировать профиль">
                                 </button>
                             </div>
                             <p class="profile__profession">Исследователь океана</p> 
@@ -88,7 +88,7 @@
                 <div class="card">
                     <img class="card__image" src=" " alt=" ">
                     <button class="card__delete-button">
-                        <img src="images/trash-button.svg" alt="Удалить карточку">
+                        <img src="<%=require('./images/trash-button.svg')%>" alt="Удалить карточку">
                     </button>
                     <div class="card__description-container">
                         <h2 class="card__title"></h2>
@@ -97,7 +97,7 @@
                 </div>
             </template>
 
-            <script type="module" src="scripts/pages/index.js"></script>
+            <!-- <script type="module" src="scripts/pages/index.js"></script> -->
 
     </body>
 </html>
