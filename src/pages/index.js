@@ -24,13 +24,7 @@ const configurationForValidator = {
 const defaultCardList = new Section(
     {   data: initialCards,
         renderer: (item) => {
-            const card = new Card({
-                data: item, 
-                cardSelector: '.card_template',
-                handleCardClick: handleCardClick
-            }); 
-            const cardElement = card.generateCard(); //Создаем карточку
-            defaultCardList.addItem(cardElement); //Созданную карточку добавляем в разметку
+            defaultCardList.addItem(createCard(item)); //Созданную карточку добавляем в разметку
         }
     },  '.cards-container');
 
@@ -70,13 +64,11 @@ function handleCardClick(name, link){
 function handleAddCardFormSubmit (obj) {
     const card = createCard(obj);
     defaultCardList.addItem(card);    
-    popupFormTypeAdd.reset();
     popupAddCard.close();
 }
 
 //Ждем клик на кнопку +
 buttonAdd.addEventListener('click', () => {
-    popupFormTypeAdd.reset(); //Очистить поля ввода
     popupAddCardValidation.hideErrorMessage();  //Скрыть ошибки
     popupAddCardValidation.toggleButtonState(); //Переключить состояние кнопки
     popupAddCard.open();

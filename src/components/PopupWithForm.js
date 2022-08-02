@@ -4,7 +4,7 @@ export default class PopupWithForm extends Popup {
     constructor({popupSelector, handleFormSubmit}){
         super(popupSelector); //окно попапа
         this._handleFormSubmit = handleFormSubmit; //функция выполняющаяя отправку для конкретной формы
-        this.popupForm = document.querySelector(popupSelector).querySelector('.popup__form');  //форма в попапе
+        this.popupForm = this._popup.querySelector('.popup__form');  //форму ищем в попапе, который нашли в родительском классе.
         this._inputList = this.popupForm.querySelectorAll('.popup__input-field');  //все поля ввода в попапе
         this._buttonSubmit = this.popupForm.querySelector('.popup__save-button');  //кнопка Сохранить
         

@@ -3,7 +3,6 @@ export default class Card{
         this._name = data.place_name;
         this._link = data.place_link;
         this._cardSelector = cardSelector;
-        this._popupOpenPicture = document.querySelector('.popup_type_open-picture');
         this._handleCardClick = handleCardClick; //функция должна открывать попап с картинкой при клике на карточку
     }
     
