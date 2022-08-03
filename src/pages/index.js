@@ -138,9 +138,6 @@ buttonEdit.addEventListener('click', openPopupEditProfile); //По кнопке 
 
 
 
-
-console.log(buttonUpdateAvatar, '');
-
 //Попап редактирования аватарки
 const popupUpdateAvatar = new PopupWithForm({
     popupSelector: '.popup_type_update-avatar',
@@ -152,11 +149,10 @@ popupUpdateAvatar.setEventListeners();
 
 buttonUpdateAvatar.addEventListener('click', () => {
     console.log('нажали на редактировать аватарку');
+    popupUpdateProfileValidation.hideErrorMessage(); //Скрыли старые ошибки
+    popupUpdateProfileValidation.toggleButtonState();
     popupUpdateAvatar.open();
 })
-
-
-
 
 
 
@@ -167,3 +163,6 @@ popupAddCardValidation.enableValidation();  //при добавлении кар
 
 const popupEditProfileValidation = new FormValidator(configurationForValidator, locators.popupEditProfile); 
 popupEditProfileValidation.enableValidation();  //при редактировании профиля
+
+const popupUpdateProfileValidation = new FormValidator(configurationForValidator, locators.popupUpdateAvatar); 
+popupUpdateProfileValidation.enableValidation();  //при обновлении аватарки

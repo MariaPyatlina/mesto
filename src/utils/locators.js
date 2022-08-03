@@ -56,6 +56,10 @@ const closePopupRemoveCard = popupRemoveCard.querySelector('.popup__close-button
 const popupFormRemoveCard = popupRemoveCard.querySelector('.popup__form');
 const buttonYes =  popupFormRemoveCard.querySelector('.popup__save-button'); //Подпись в попапе
 
+//Попап обновления аватарки
+const popupUpdateAvatar = document.querySelector('.popup_type_update-avatar');
+
+
 export const locators = {
     popupList: popupList, //все попапы
     closePopupButtonList:  closePopupButtonList, //все кнопки закрыть на попапах
@@ -104,9 +108,13 @@ export const locators = {
     pictureInPopup:  pictureInPopup,  //Картинка в попапе
     captionInPopup: captionInPopup, //Подпись в попапе
 
-    //Попап удаления карточки
+//Попап удаления карточки
     popupRemoveCard: popupRemoveCard, //Попап удаления карточки
     closePopupRemoveCard: closePopupRemoveCard,  //Кнопка Закрыть попап
     popupFormRemoveCard: popupFormRemoveCard, 
-    buttonYes: buttonYes  //Кнопка ДА
+    buttonYes: buttonYes,  //Кнопка ДА
+
+//Попап обновления аватарки
+    popupUpdateAvatar: popupUpdateAvatar,
+
 }
