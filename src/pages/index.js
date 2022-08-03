@@ -1,5 +1,6 @@
 import './index.css';
 
+import Api from '../components/Api.js';
 import { initialCards } from '../utils/InitialCards.js';
 import Card from '../components/Card.js';
 import Section from '../components/Section.js';
@@ -9,7 +10,8 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import UserInfo from '../components/UserInfo.js';
 
-import {buttonEdit, buttonAdd, popupFormTypeAdd, popupRemoveCard} from '../utils/locators.js';
+import {buttonEdit, buttonAdd, buttonUpdateAvatar, popupFormTypeAdd, popupRemoveCard} from '../utils/locators.js';
+import {url, token, cohortId} from '../utils/locators.js'
 
 const configurationForValidator = {
     formSelector: '.popup__form',  //форма в попапе
@@ -20,17 +22,14 @@ const configurationForValidator = {
     errorClass: 'popup__input-error_active'  //Текст ошибки становится видимым 
 };
 
-const url = 'https://mesto.nomoreparties.co/v1/cohort-46';
-const token = 'c56e30dc-2883-4270-a59e-b2f7bae969c6'; //TODO заменить на свой токен
-
 //API
-// const api = new Api({
-//     baseUrl: url,
-//     headers: {
-//       authorization: token,
-//       'Content-Type': 'application/json'
-//     }
-//   }); 
+const api = new Api({
+    baseUrl: url,
+    headers: {
+      authorization: token,
+      'Content-Type': 'application/json'
+    }
+  }); 
 
 
 
@@ -135,6 +134,23 @@ test.addEventListener('click', () =>{
     console.log('нажали на кнопку тест');
     popupRemoveButton.open();
 })
+
+
+//Попап редактирования аватарки
+const popupUpdateAvatar = new PopupWithForm({
+    popupSelector: '.popup_type_update-avatar',
+    handleFormSubmit: () => {
+        console.log('Сохранили таки новый аватар');
+    }
+})
+popupUpdateAvatar.setEventListeners();
+
+buttonUpdateAvatar.addEventListener('click', () => {
+    console.log('нажали на редактировать аватарку');
+    popupUpdateAvatar.open();
+})
+
+
 
 
 //-----------------------ВАЛИДАЦИЯ

@@ -1,3 +1,8 @@
+export const url = 'https://mesto.nomoreparties.co/v1/cohort-46';
+export const token = 'c053cf6b-6c0b-409e-b690-1c8f378e7fc7';
+export const cohortId = 'cohort-46';
+
+
 const popupList = document.querySelectorAll('.popup'); //все попапы
 const closePopupButtonList = document.querySelectorAll('.popup__close-button'); //все кнопки закрыть на попапах
 
@@ -8,6 +13,7 @@ const profileContainer = document.querySelector('.profile__container');
 export const buttonEdit = profileContainer.querySelector('.profile__edit-button'); //Кнопка Редактировать
 const userName = profileContainer.querySelector('.profile__name'); //Имя пользователя
 const userProfession = profileContainer.querySelector('.profile__profession'); //Профессия пользователя
+export const buttonUpdateAvatar = profileContainer.querySelector('.profile__avatar-button'); //Кнопка Редактировать аватар
 
 //Секция Элементы
 const sectionElements = document.querySelector('.elements');  //Блок Элементы
@@ -61,6 +67,7 @@ export const locators = {
     buttonEdit: buttonEdit, //Кнопка Редактировать
     userName: userName, //Имя пользователя
     userProfession: userProfession, //Профессия пользователя
+    buttonUpdateAvatar: buttonUpdateAvatar, //Редактировать аватар
 
 //Секция Элементы
     sectionElements: sectionElements,  //Блок Элементы

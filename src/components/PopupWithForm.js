@@ -7,6 +7,7 @@ export default class PopupWithForm extends Popup {
         this.popupForm = this._popup.querySelector('.popup__form');  //форму ищем в попапе, который нашли в родительском классе.
         this._inputList = this.popupForm.querySelectorAll('.popup__input-field');  //все поля ввода в попапе
         this._buttonSubmit = this.popupForm.querySelector('.popup__save-button');  //кнопка Сохранить
+        this._initialTitleButton = this._buttonSubmit.textContent;
         
     }
 
@@ -36,5 +37,15 @@ export default class PopupWithForm extends Popup {
     close() { //При закрытии в форме сбрасываются поля ввода
         super.close();
         this.popupForm.reset();
+    }
+
+    renderLoading(isLoading){ //При загрузке данных меняется название кнопки
+        console.log ('initialTitleButton', initialTitleButton);
+        if (isLoading) {
+            this._buttonSubmit.textContent = 'Сохранение...';
+        }
+        else {
+            this._buttonSubmit.textContent = this._initialTitleButton;
+        }
     }
 }
