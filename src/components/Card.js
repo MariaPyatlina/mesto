@@ -1,9 +1,13 @@
 export default class Card{
-    constructor({data, cardSelector, handleCardClick}){
+    constructor({data, cardSelector, handleCardClick, handleCardDelete}){
         this._name = data.place_name;
         this._link = data.place_link;
         this._cardSelector = cardSelector;
+
+        this._cardId = data._id;  // id карточки, который пришел с сервера
+
         this._handleCardClick = handleCardClick; //функция должна открывать попап с картинкой при клике на карточку
+        this._handleCardDelete = handleCardDelete;
     }
     
     _getTemplate(){ //Забирает разметку из html и клонирует содержимое шаблона карточки
@@ -30,7 +34,8 @@ export default class Card{
 
         //на клик по мусорке
         this._deleteButton.addEventListener('click', ()=>{
-            this._removeCard();
+            this._handleCardDelete(this._cardId);
+            //this._removeCard();
         });
     };
 

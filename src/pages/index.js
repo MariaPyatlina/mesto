@@ -1,16 +1,19 @@
 import './index.css';
 
+//Классы
 import Api from '../components/Api.js';
-import { initialCards } from '../utils/InitialCards.js';
 import Card from '../components/Card.js';
 import Section from '../components/Section.js';
 import FormValidator from '../components/FormValidator.js';
-import { locators } from '../utils/locators.js';
+import PopupWithConfirm from '../components/PopupWithConfirm.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import UserInfo from '../components/UserInfo.js';
 
-import {buttonEdit, buttonAdd, buttonUpdateAvatar, popupFormTypeAdd, popupRemoveCard} from '../utils/locators.js';
+//Константы
+import { initialCards } from '../utils/InitialCards.js';
+import { locators } from '../utils/locators.js';
+import {buttonEdit, buttonAdd, buttonUpdateAvatar} from '../utils/locators.js';
 import {url, token, cohortId} from '../utils/locators.js'
 
 const configurationForValidator = {
@@ -29,7 +32,7 @@ const api = new Api({
       authorization: token,
       'Content-Type': 'application/json'
     }
-  }); 
+}); 
 
 
 
@@ -38,20 +41,21 @@ const api = new Api({
 const defaultCardList = new Section(
     {   data: initialCards,
         renderer: (item) => {
-            defaultCardList.addItem(createCard(item)); //Созданную карточку добавляем в разметку
+            defaultCardList.addItem(createCard(item));
         }
     },  '.cards-container');
-
 defaultCardList.renderItems();
 
 
+
+
 //---------------------ДОБАВИТЬ КАРТОЧКУ
-//Функция создания новой каточки
-function createCard (item){
+function createCard (item){ //Функция создания новой каточки из класса
     const card = new Card({
         data: item, 
         cardSelector: '.card_template',
-        handleCardClick: handleCardClick
+        handleCardClick: handleCardClick,
+        handleCardDelete: handleCardDelete
     });
     const cardElement = card.generateCard(); //Создаем карточку и возвращаем наружу
     return cardElement;
@@ -65,14 +69,26 @@ const popupAddCard = new PopupWithForm({
 popupAddCard.setEventListeners(); //Добавляем слушателей, чтобы можно было его закрыть
 
 
-//Попап просмотра картинки
-const viewImageInPopup = new PopupWithImage('.popup_type_open-picture'); //попап с картинкой  
-viewImageInPopup.setEventListeners();  //добавили ему слушателей, чтобы можно было его закрыть.
 
-//Функция открывающая попап по клику на картинку
+//Открывает попап по клику на картинку
 function handleCardClick(name, link){
     viewImageInPopup.open(name, link);
 }
+
+//Попап просмотра картинки
+const viewImageInPopup = new PopupWithImage('.popup_type_open-picture');
+viewImageInPopup.setEventListeners();  //добавили ему слушателей, чтобы можно было его закрыть.
+
+
+//Попап удаления карточки
+const popupRemoveCard = new PopupWithConfirm('.popup_type_remove-card');
+popupRemoveCard.setEventListeners(); 
+
+function handleCardDelete(){
+    popupRemoveCard.open();
+};
+
+
 
 //Функция сохраняющая введенные данные нового места
 function handleAddCardFormSubmit (obj) {
@@ -83,10 +99,13 @@ function handleAddCardFormSubmit (obj) {
 
 //Ждем клик на кнопку +
 buttonAdd.addEventListener('click', () => {
+    console.log();
     popupAddCardValidation.hideErrorMessage();  //Скрыть ошибки
     popupAddCardValidation.toggleButtonState(); //Переключить состояние кнопки
     popupAddCard.open();
 });  
+
+
 
 
 
@@ -100,7 +119,7 @@ const userInfo = new UserInfo({ //Экземпляр класса с данны�
 const popupEditProfile = new PopupWithForm({
     popupSelector: '.popup_type_edit-profile', 
     handleFormSubmit: (data) => {
-        userInfo.setUserInfo(data); //Здесь поидее передаем в профиль пользователя значения из полей input попапа
+        userInfo.setUserInfo(data); //Здесь передаем в профиль пользователя значения из полей input попапа
         popupEditProfile.close();
     }
 });
@@ -118,23 +137,9 @@ popupEditProfile.setEventListeners(); //добавили ему слушател
 buttonEdit.addEventListener('click', openPopupEditProfile); //По кнопке Редактировать открываем попап и передаем установленные значения в поля ввода
 
 
-//Попап удаления карточки
-const popupRemoveButton = new PopupWithForm({
-    popupSelector: '.popup_type_remove-card',
-    handleFormSubmit: () =>{
-        console.log('Жмякнули на кнопку ДА. Пойду удалять');
-    }
-});
-popupRemoveButton.setEventListeners(); //Чтобы его можно было закрыть
 
-//Временный код открытия попапа. Это нужно вынести в функцию в класс CArd
-const test = document.querySelector('.profile__test');
-console.log('test = ', test);
-test.addEventListener('click', () =>{
-    console.log('нажали на кнопку тест');
-    popupRemoveButton.open();
-})
 
+console.log(buttonUpdateAvatar, '');
 
 //Попап редактирования аватарки
 const popupUpdateAvatar = new PopupWithForm({
@@ -149,6 +154,8 @@ buttonUpdateAvatar.addEventListener('click', () => {
     console.log('нажали на редактировать аватарку');
     popupUpdateAvatar.open();
 })
+
+
 
 
 
