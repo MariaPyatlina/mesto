@@ -9,7 +9,7 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import UserInfo from '../components/UserInfo.js';
 
-import {buttonEdit, buttonAdd, popupFormTypeAdd} from '../utils/locators.js';
+import {buttonEdit, buttonAdd, popupFormTypeAdd, popupRemoveCard} from '../utils/locators.js';
 
 const configurationForValidator = {
     formSelector: '.popup__form',  //форма в попапе
@@ -19,6 +19,21 @@ const configurationForValidator = {
     inputErrorClass: 'popup__input-field_type_error',  // Поле ввода подсвечено с ошибкой
     errorClass: 'popup__input-error_active'  //Текст ошибки становится видимым 
 };
+
+const url = 'https://mesto.nomoreparties.co/v1/cohort-46';
+const token = 'c56e30dc-2883-4270-a59e-b2f7bae969c6'; //TODO заменить на свой токен
+
+//API
+// const api = new Api({
+//     baseUrl: url,
+//     headers: {
+//       authorization: token,
+//       'Content-Type': 'application/json'
+//     }
+//   }); 
+
+
+
 
 //Отрисовываем начальные карточки
 const defaultCardList = new Section(
@@ -104,6 +119,22 @@ popupEditProfile.setEventListeners(); //добавили ему слушател
 buttonEdit.addEventListener('click', openPopupEditProfile); //По кнопке Редактировать открываем попап и передаем установленные значения в поля ввода
 
 
+//Попап удаления карточки
+const popupRemoveButton = new PopupWithForm({
+    popupSelector: '.popup_type_remove-card',
+    handleFormSubmit: () =>{
+        console.log('Жмякнули на кнопку ДА. Пойду удалять');
+    }
+});
+popupRemoveButton.setEventListeners(); //Чтобы его можно было закрыть
+
+//Временный код открытия попапа. Это нужно вынести в функцию в класс CArd
+const test = document.querySelector('.profile__test');
+console.log('test = ', test);
+test.addEventListener('click', () =>{
+    console.log('нажали на кнопку тест');
+    popupRemoveButton.open();
+})
 
 
 //-----------------------ВАЛИДАЦИЯ

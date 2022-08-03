@@ -44,6 +44,12 @@ const captionBigPicture = popupOpenPicture.querySelector('.popup__caption');  //
 const pictureInPopup =  popupOpenPicture.querySelector('.popup__image');  //Картинка в попапе
 const captionInPopup =  popupOpenPicture.querySelector('.popup__caption'); //Подпись в попапе
 
+//Попап удаления карточки
+export const popupRemoveCard = document.querySelector('.popup_type_remove-card'); //Попап удаления карточки
+const closePopupRemoveCard = popupRemoveCard.querySelector('.popup__close-button'); //Кнопка Закрыть попап
+const popupFormRemoveCard = popupRemoveCard.querySelector('.popup__form');
+const buttonYes =  popupFormRemoveCard.querySelector('.popup__save-button'); //Подпись в попапе
+
 export const locators = {
     popupList: popupList, //все попапы
     closePopupButtonList:  closePopupButtonList, //все кнопки закрыть на попапах
@@ -89,5 +95,11 @@ export const locators = {
     closePopupBigPictureButton: closePopupBigPictureButton, //Кнопка Закрыть попап
     captionBigPicture: captionBigPicture,  //Подпись к картике
     pictureInPopup:  pictureInPopup,  //Картинка в попапе
-    captionInPopup: captionInPopup //Подпись в попапе
+    captionInPopup: captionInPopup, //Подпись в попапе
+
+    //Попап удаления карточки
+    popupRemoveCard: popupRemoveCard, //Попап удаления карточки
+    closePopupRemoveCard: closePopupRemoveCard,  //Кнопка Закрыть попап
+    popupFormRemoveCard: popupFormRemoveCard, 
+    buttonYes: buttonYes  //Кнопка ДА
 }
