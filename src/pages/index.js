@@ -11,7 +11,7 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import UserInfo from '../components/UserInfo.js';
 
 //Константы
-import { initialCards } from '../utils/InitialCards.js';
+//import { initialCards } from '../utils/InitialCards.js';
 import { locators } from '../utils/locators.js';
 import {buttonEdit, buttonAdd, buttonUpdateAvatar} from '../utils/locators.js';
 import {url, token, cohortId} from '../utils/locators.js'
@@ -25,37 +25,70 @@ const configurationForValidator = {
     errorClass: 'popup__input-error_active'  //Текст ошибки становится видимым 
 };
 
-//API
-const api = new Api({
-    baseUrl: url,
+const config = {
+    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-46',
     headers: {
-      authorization: token,
+      authorization: 'c053cf6b-6c0b-409e-b690-1c8f378e7fc7',
       'Content-Type': 'application/json'
     }
-}); 
+}
 
-
-
+//API
+let api = new Api(config); 
 
 //Отрисовываем начальные карточки
-const defaultCardList = new Section(
-    {   data: initialCards,
-        renderer: (item) => {
-            defaultCardList.addItem(createCard(item));
-        }
-    },  '.cards-container');
-defaultCardList.renderItems();
+api.getInitialCards()
+    .then(items => {
+        console.log('items = ', items);
+        console.log(items[0]);
+        const defaultCardList = new Section(
+            {   data: items,
+                renderer: (item) => {
+                    defaultCardList.addItem(createCard(item));
+                }
+            },  '.cards-container');
+            defaultCardList.renderItems();
+    }
+).catch(err => console.log(err));
+
+api.getUserData(config)
+    .then(items => {
+        console.log('userData = ', items);
+    }
+).catch(err => console.log(err));
+
+api.updateAvatar(data)
+    .then(data => {
+        //TODO здесь нужно написать функцию отправки данных
+    })
+    .catch(err => console.log(err));
 
 
+// const defaultCardList = new Section(
+//     {   data: initialCards,
+//         renderer: (item) => {
+//             defaultCardList.addItem(createCard(item));
+//         }
+//     },  '.cards-container');
+//     defaultCardList.renderItems();
 
+
+// {data, userId, cardSelector, handleCardClick, handleCardDelete}
 
 //---------------------ДОБАВИТЬ КАРТОЧКУ
 function createCard (item){ //Функция создания новой каточки из класса
     const card = new Card({
         data: item, 
+        //userId: userId,
         cardSelector: '.card_template',
-        handleCardClick: handleCardClick,
-        handleCardDelete: handleCardDelete
+        //handleCardClick: handleCardClick,
+        handleCardClick: (name, link) => {
+            viewImageInPopup.open(name, link);
+        },
+        handleCardDelete: (cardId) => {
+            popupRemoveCard.open();
+            //Обрабатывать нажатие на ДА
+        }
     });
     const cardElement = card.generateCard(); //Создаем карточку и возвращаем наружу
     return cardElement;
@@ -71,9 +104,9 @@ popupAddCard.setEventListeners(); //Добавляем слушателей, ч�
 
 
 //Открывает попап по клику на картинку
-function handleCardClick(name, link){
-    viewImageInPopup.open(name, link);
-}
+// function handleCardClick(name, link){
+//     viewImageInPopup.open(name, link);
+// }
 
 //Попап просмотра картинки
 const viewImageInPopup = new PopupWithImage('.popup_type_open-picture');
@@ -84,9 +117,9 @@ viewImageInPopup.setEventListeners();  //добавили ему слушате�
 const popupRemoveCard = new PopupWithConfirm('.popup_type_remove-card');
 popupRemoveCard.setEventListeners(); 
 
-function handleCardDelete(){
-    popupRemoveCard.open();
-};
+// function handleCardDelete(){
+//     popupRemoveCard.open();
+// };
 
 
 

@@ -6,137 +6,95 @@ export default class Api {
 
 //TODO Обработать ответы в запросах.
 
+    _parseAnswer(res){
+        if (res.ok) {
+          console.log ('карточки загружены успешно');
+          return res.json();
+        } 
+        else Promise.reject(`ОШибка ${res.status}`);
+    }
+
+        //Забирает массив карточке с сервера
+    getInitialCards() {
+          return fetch(`${this._baseUrl}/cards`, {
+            method: 'GET',
+            headers: this._headers
+          }) //В ответ придет массив карточек
+          .then(res => this._parseAnswer(res))
+        }
+
     //Забирает данные пользователя с сервера
     getUserData(){
-        fetch(`${this._baseUrl}/users/me`, {
+        return fetch(`${this._baseUrl}/users/me`, {
           method: 'GET',
           headers: this._headers
         }) //В ответ придет объект пользователя
-        .then( res => res.json())
-        .then((data) => {
-          console.log('чето скачали', data);
-        }) //Здесь ждем объект с данными пользователя name, about, avatar, _id
-        .catch((err) => {
-            console.log(err, 'Ошибка при загрузке данных о пользователе');
-        })
+        .then(res => this._parseAnswer(res))
     }
 
     //Отправляет новые данные профиля
     setUserData(){
-      fetch(`${this._baseUrl}/users/me`, {
+      return fetch(`${this._baseUrl}/users/me`, {
           method: 'PATCH',
-          headers: this._headers, //'Content-Type': 'application/json'
+          headers: this._headers,
           body: JSON.stringify({ //TODO заменить поля которые отправляем
             name: "Marie Skłodowska Curie",
             about: "Physicist and Chemist",
         })
        }) //В ответ придет объект с обновленными данными пользователя
-        .then( res => res.json())
-        .then((data) => {
-          console.log('чето скачали', data);
-        }) //Здесь ждем объект с данными пользователя name, about, avatar, _id
-        .catch((err) => {
-            console.log(err, 'Ошибка при загрузке данных о пользователе');
-        })
+       .then(res => this._parseAnswer(res))
     }
   
-    //Забирает массив карточке с сервера
-    getInitialCards() {
-      fetch(`${this._baseUrl}/cards`, {
-        method: 'GET',
-        headers: this._headers
-      }) //В ответ придет массив карточек
-      .then((res) => {
-        console.log(res); //Посмотрим, что возвращает сервер
-      })
-      .then((data) => {}) //По идее должен быть массив с карточками, а-ля initialCards. Здесь вызываем функцию добавляющую карточки на страницу?
-      .catch((err) => {
-        console.log(err, 'Ошибка при загрузке карточек с сервера');
-      })
-    }
 
     //Отправляет новую карточку на сервер
-    sendNewCard(){
-      fetch(`${this._baseUrl}/cards`, {
+    sendNewCard({ data }){
+      return fetch(`${this._baseUrl}/cards`, {
           method: 'POST',
-          headers: this._headers, //application/json
-          body: JSON.stringify({ //TODO заменить поля которые отправляем
-            name: "Marie Skłodowska Curie",
-            link: "https://pictures.s3.yandex.net/frontend-developer/common/ava.jpg",
+          headers: this._headers,
+          body: JSON.stringify({ //поля в карточке, которые отправляем
+            name: data.name,
+            link: data.link,
         })
        }) //В ответ придет объект с новой карточкой
-        .then( res => res.json())
-        .then((data) => {
-          console.log('чето скачали', data);
-        }) //Здесь ждем объект с данными пользователя name, about, avatar, _id
-        .catch((err) => {
-            console.log(err, 'Ошибка при загрузке данных о пользователе');
-        })
+       .then(res => this._parseAnswer(res))
     }
 
     //Удаляет карточку
     removeCard(){
-      fetch(`${this._baseUrl}/cards/${_id}`, {
+      return fetch(`${this._baseUrl}/cards/${_id}`, {
           method: 'DELETE',
           headers: this._headers
        }) //В ответ придет ХЗ что. Вероятно 200 ОК
-        .then( res => res.json())
-        .then((data) => {
-          console.log('чето скачали', data);
-        }) //Здесь ждем объект с данными пользователя name, about, avatar, _id
-        .catch((err) => {
-            console.log(err, 'Ошибка при загрузке данных о пользователе');
-        })
+       .then(res => this._parseAnswer(res))
     }
 
     //Лайкает карточку
     likeCard(){
-      fetch(`${this._baseUrl}/cards/${_id}/likes`, {
+      return fetch(`${this._baseUrl}/cards/${_id}/likes`, {
         method: 'PUT',
         headers: this._headers
      }) //В ответ придет ХЗ что. Вероятно 200 ОК
-      .then( res => res.ok)
-      .then( () => {
-        console.log ('Лайкнуто');
-      })
-      .catch((err) => {
-          console.log(err, 'Ошибка');
-      })
+     .then(res => this._parseAnswer(res))
     }
     
     //ДизЛайкает карточку
     disLikeCard(){
-      fetch(`${this._baseUrl}/cards/${_id}/likes`, {
+      return fetch(`${this._baseUrl}/cards/${_id}/likes`, {
         method: 'DELETE',
         headers: this._headers
      }) //В ответ придет ХЗ что. Вероятно 200 ОК
-      .then( res => res.ok)
-      .then( () => {
-        console.log ('Лайкнуто');
-      })
-      .catch((err) => {
-          console.log(err, 'Ошибка');
-      })
+     .then(res => this._parseAnswer(res))
     }
 
     //Обновление аватара
-    updateAvatar(){
-      fetch(`${this._baseUrl}/users/me/avatar`, {
+    updateAvatar({data}){
+      return fetch(`${this._baseUrl}/users/me/avatar`, {
         method: 'PATCH',
-        headers: this._headers, //application/json
-        body: JSON.stringify({ //TODO заменить поля которые отправляем
-          avatar: "ЗДЕСЬ ДОЛЖНО БЫТЬ ЗНАЧЕНИЕ ИЗ ИНПУТА"
+        headers: this._headers,
+        body: JSON.stringify({ //отправляесм ссылку на аватарку
+          avatar: data.avatarLink,
         })
       }) //В ответ придет ХЗ что. Вероятно 200 ОК
-      .then( res => {
-        if (res.ok) {
-          console.log ('Ава загружена успешно');
-          return res.json();
-        } 
-        return Promise.reject(`ОШИБОЧКА ВЫШЛА: ${res.status}`);
-      })
-      .catch((err) => {
-          console.log(err, 'Ошибка обновления аватара');
-      })
+      .then(res => this._parseAnswer(res))
     }
   }

@@ -25,6 +25,7 @@ const cardTemplate = document.querySelector('.card_template').content;  //Кон
 const cardTemplateImage = cardTemplate.querySelector('.card__image');  //Картинка
 const cardTemplateTitle = cardTemplate.querySelector('.card__title');  //Название
 const cardTemplateLikeButton = cardTemplate.querySelector('.card__like-button');  //Лайк
+const cardCountLike = cardTemplate.querySelector('.card__like-count');  //Количество лайков
 const cardTemplateDeleteButton = cardTemplate.querySelector('.card__delete-button');  //Мусорка
 
 //Попап добавления нового места
@@ -83,6 +84,7 @@ export const locators = {
     cardTemplateImage: cardTemplateImage,  //Картинка
     cardTemplateTitle: cardTemplateTitle,  //Название
     cardTemplateLikeButton: cardTemplateLikeButton,  //Лайк
+    cardCountLike: cardCountLike,
     cardTemplateDeleteButton: cardTemplateDeleteButton,  //Мусорка
 
 //Попап добавления нового места
