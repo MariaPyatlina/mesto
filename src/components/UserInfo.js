@@ -5,23 +5,26 @@
 //const userProfession = profileContainer.querySelector('.profile__profession'); //Профессия пользователя
 
 export default class UserInfo {
-    constructor({name, profession}){
+    constructor({name, profession, avatar}){
         this._name = document.querySelector(name);
         this._profession = document.querySelector(profession);
+        this._avatar = document.querySelector(avatar);
 
     }
 
-    getUserInfo(){ //возвращает объект с данными пользователя. Этот метод пригодится когда данные пользователя нужно будет подставить в форму при открытии.
+    getUserInfo(){ //возвращает объект с данными пользователя. Этот метод пригодится когда 
+        //данные пользователя нужно будет подставить в форму при открытии.
         const userInfoData = {
             name: this._name.textContent,
-            profession: this._profession.textContent
+            profession: this._profession.textContent,
+            avatar: this._avatar.src
         }   
-        return userInfoData;   
-        //return {name: this._name.textContent, profession: this._profession.textContent};  
+        return userInfoData;     
     }
 
     setUserInfo(data){ //принимает новые данные пользователя и добавляет их на страницу.
         this._name.textContent = data.name;
-        this._profession.textContent = data.profession;
+        this._profession.textContent = data.about;
+        this._avatar.src = data.avatar;
     }
 }

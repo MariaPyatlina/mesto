@@ -51,31 +51,40 @@ api.getInitialCards()
     }
 ).catch(err => console.log(err));
 
-api.getUserData(config)
-    .then(items => {
-        console.log('userData = ', items);
+//Забираем данные о пользователе с сервера и отрисовываем их
+api.getUserData()
+    .then(data => {
+        console.log('userDataFromServer = ', data.name, data.about, data.avatar);
+        userInfo.setUserInfo(data);
+
+        // const userInfo = new UserInfo({ //Экземпляр класса с данными из профиля пользователя.
+        //     name: data.name, 
+        //     profession: data.about,
+        //     avatar: data.avatar
+        // });
+        // userInfo.setUserInfo(data); 
     }
 ).catch(err => console.log(err));
 
-api.updateAvatar(data)
-    .then(data => {
-        //TODO здесь нужно написать функцию отправки данных
-    })
-    .catch(err => console.log(err));
 
 
-// const defaultCardList = new Section(
-//     {   data: initialCards,
-//         renderer: (item) => {
-//             defaultCardList.addItem(createCard(item));
-//         }
-//     },  '.cards-container');
-//     defaultCardList.renderItems();
 
 
-// {data, userId, cardSelector, handleCardClick, handleCardDelete}
+
+
+// api.updateAvatar(data)
+//     .then(data => {
+//         //TODO здесь нужно написать функцию отправки данных
+//     })
+//     .catch(err => console.log(err));
+
+
+
+
+
 
 //---------------------ДОБАВИТЬ КАРТОЧКУ
+// {data, userId, cardSelector, handleCardClick, handleCardDelete}
 function createCard (item){ //Функция создания новой каточки из класса
     const card = new Card({
         data: item, 
@@ -132,7 +141,6 @@ function handleAddCardFormSubmit (obj) {
 
 //Ждем клик на кнопку +
 buttonAdd.addEventListener('click', () => {
-    console.log();
     popupAddCardValidation.hideErrorMessage();  //Скрыть ошибки
     popupAddCardValidation.toggleButtonState(); //Переключить состояние кнопки
     popupAddCard.open();
@@ -145,8 +153,11 @@ buttonAdd.addEventListener('click', () => {
 //---------------------ПРОФИЛЬ
 const userInfo = new UserInfo({ //Экземпляр класса с данными из профиля пользователя.
     name: ".profile__name", 
-    profession: ".profile__profession"
+    profession: ".profile__profession",
+    avatar: ".profile__avatar"
 });
+
+console.log ('userInfo', userInfo);
 
 //Создаем попап редактирования профиля пользователя
 const popupEditProfile = new PopupWithForm({
