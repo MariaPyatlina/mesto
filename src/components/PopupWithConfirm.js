@@ -6,9 +6,9 @@ export default class PopupWithConfirm extends Popup {
         this._popupForm = this._popup.querySelector('.popup_form');
     }
 
-    _handleSubmitDelete(){
+    // _handleSubmitDelete(){
 
-    }
+    // }
 
     setEventListeners(){
         super.setEventListeners();

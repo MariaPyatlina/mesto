@@ -12,7 +12,7 @@ import UserInfo from '../components/UserInfo.js';
 
 //Константы
 import { locators } from '../utils/locators.js';
-import {buttonEdit, buttonAdd, buttonUpdateAvatar, avatar, userProfession, userName} from '../utils/locators.js';
+import {buttonEdit, buttonAdd, buttonUpdateAvatar, avatar, sectionElementsContainer, userProfession, userName} from '../utils/locators.js';
 import {url, token, cohortId} from '../utils/locators.js'
 
 const configurationForValidator = {
@@ -35,7 +35,7 @@ const config = {
 //API
 let api = new Api(config); 
 
-let userId;
+let userId = null;
 
 //Отрисовываем начальные карточки
 api.getInitialCards()
@@ -123,16 +123,9 @@ buttonUpdateAvatar.addEventListener('click', () => {
     popupUpdateAvatar.open();
 })
 
-//-----------------------ВАЛИДАЦИЯ
-//Валидация полей в попапах
-const popupAddCardValidation = new FormValidator(configurationForValidator, locators.popupAddCard); 
-popupAddCardValidation.enableValidation();  //при добавлении карточки
 
-const popupEditProfileValidation = new FormValidator(configurationForValidator, locators.popupEditProfile); 
-popupEditProfileValidation.enableValidation();  //при редактировании профиля
 
-const popupUpdateProfileValidation = new FormValidator(configurationForValidator, locators.popupUpdateAvatar); 
-popupUpdateProfileValidation.enableValidation();  //при обновлении аватарки
+
 
 
 
@@ -146,36 +139,37 @@ function createCard (item){ //Функция создания новой кат�
         //Открыть попап картинки, Работает
         handleCardClick: (name, link) => {
             viewImageInPopup.open(name, link);
-        },
-        //Удалить карточку
-        handleCardDelete: (cardId) => {
-            popupRemoveCard.open();
-            //Обрабатывать нажатие на ДА (Висит слушатель на карточке)?
-                api.removeCard(cardId)
-                .then( () => {
-                    card.removeCard();
-                    popupRemoveCard.close();
-                })
-                .catch(err => console.log(`Ошибка удаления карточки ${err}`))
-        },
-        //Лайкнуть карточку
-        handleLikeCard: (cardId) => {
-            api.likeCard(cardId)
-            .then((data) => {
-                card.toggleLikeCard(data);
-            })
-            .catch(err => console.log(`Ошибка лайка ${err}`))
-        },
-        //Дизлайкнуть карточку
-        handleDisLikeCard: (cardId) => {
-            api.disLikeCard(cardId)
-            .then((data) => {
-                console.log('2');
-                card.toggleLikeCard(data);
-
-            })
-            .catch(err => console.log(`Ошибка лайка ${err}`))
         }
+        //Удалить карточку
+        // handleCardDelete: (cardId) => {
+        //     popupRemoveCard.open();
+        //     //TODO ДОБАВИТЬ ожидание нажатия на ДА (Висит слушатель на карточке)?
+        //         api.removeCard(cardId)
+        //         .then(() => {
+        //             console.log('я что-то удалил?');
+        //             card.removeCard();
+        //             popupRemoveCard.close();
+        //         })
+        //         .catch(err => console.log(`Ошибка удаления карточки ${err}`))
+        // },
+        //Лайкнуть карточку
+        // handleLikeCard: (cardId) => {
+        //     api.likeCard(cardId)
+        //     .then((data) => {
+        //         card.toggleLikeCard(data);
+        //     })
+        //     .catch(err => console.log(`Ошибка лайка ${err}`))
+        // },
+        //Дизлайкнуть карточку
+        // handleDisLikeCard: (cardId) => {
+        //     api.disLikeCard(cardId)
+        //     .then((data) => {
+        //         console.log('2');
+        //         card.toggleLikeCard(data);
+
+        //     })
+        //     .catch(err => console.log(`Ошибка лайка ${err}`))
+        // }
     });
     const cardElement = card.generateCard(); //Создаем карточку и возвращаем наружу
     return cardElement;
@@ -184,7 +178,22 @@ function createCard (item){ //Функция создания новой кат�
 //Создание попапа с формой добавления новой карточки
 const popupAddCard = new PopupWithForm({
     popupSelector:'.popup_type_add-card',
-    handleFormSubmit: handleAddCardFormSubmit
+    //handleFormSubmit: handleAddCardFormSubmit
+    handleFormSubmit: (data) => {
+        console.log('data handleFormSubmit ', data );
+        popupAddCard.renderLoading(true);
+        api.sendNewCard(data)
+        .then((data) => {
+            console.log('Пытаюсь создать карточку', data);
+            const card = createCard(data);
+            //defaultCardList.addItem(card);   
+            popupAddCard.close();
+        })
+        .catch(err => console.log(err))
+        .finally(() => {
+            popupAddCard.renderLoading(false);
+        })
+    }
 })
 popupAddCard.setEventListeners(); //Добавляем слушателей, чтобы можно было его закрыть
 
@@ -195,8 +204,8 @@ viewImageInPopup.setEventListeners();  //добавили ему слушате�
 
 
 //Попап удаления карточки
-const popupRemoveCard = new PopupWithConfirm('.popup_type_remove-card');
-popupRemoveCard.setEventListeners(); 
+// const popupRemoveCard = new PopupWithConfirm('.popup_type_remove-card');
+// popupRemoveCard.setEventListeners(); 
 
 // function handleCardDelete(){
 //     popupRemoveCard.open();
@@ -233,13 +242,13 @@ function handleCardDeleteTest (card){
 
 
 
-// //-----------------------ВАЛИДАЦИЯ
-// //Валидация полей в попапах
-// const popupAddCardValidation = new FormValidator(configurationForValidator, locators.popupAddCard); 
-// popupAddCardValidation.enableValidation();  //при добавлении карточки
+//-----------------------ВАЛИДАЦИЯ
+//Валидация полей в попапах
+const popupAddCardValidation = new FormValidator(configurationForValidator, locators.popupAddCard); 
+popupAddCardValidation.enableValidation();  //при добавлении карточки
 
-// const popupEditProfileValidation = new FormValidator(configurationForValidator, locators.popupEditProfile); 
-// popupEditProfileValidation.enableValidation();  //при редактировании профиля
+const popupEditProfileValidation = new FormValidator(configurationForValidator, locators.popupEditProfile); 
+popupEditProfileValidation.enableValidation();  //при редактировании профиля
 
-// const popupUpdateProfileValidation = new FormValidator(configurationForValidator, locators.popupUpdateAvatar); 
-// popupUpdateProfileValidation.enableValidation();  //при обновлении аватарки
+const popupUpdateProfileValidation = new FormValidator(configurationForValidator, locators.popupUpdateAvatar); 
+popupUpdateProfileValidation.enableValidation();  //при обновлении аватарки

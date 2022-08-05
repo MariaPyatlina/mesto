@@ -1,4 +1,4 @@
-import { data } from "autoprefixer";
+//import { data } from "autoprefixer";
 
 export default class Api {
     constructor(options) {
@@ -9,13 +9,13 @@ export default class Api {
 //TODO Обработать ответы в запросах.
     _parseAnswer(res){
         if (res.ok) {
-          console.log ('карточки загружены успешно');
           return res.json();
         } 
-        else Promise.reject(`ОШибка ${res.status}`);
+        else Promise.reject(`Ошибка ${res.status}`);
     }
 
-    //Забирает массив карточке с сервера
+//------------ПРО КАРТОЧКИ--------------------------------
+    //Забирает массив карточек с сервера
     getInitialCards() {
           return fetch(`${this._baseUrl}/cards`, {
             method: 'GET',
@@ -24,47 +24,24 @@ export default class Api {
           .then(res => this._parseAnswer(res))
         }
 
-    //Забирает данные пользователя с сервера
-    getUserData(){
-        return fetch(`${this._baseUrl}/users/me`, {
-          method: 'GET',
-          headers: this._headers
-        }) //В ответ придет объект пользователя
-        .then(res => this._parseAnswer(res))
-    }
-
-    //Отправляет новые данные профиля
-    setUserData(data){
-      return fetch(`${this._baseUrl}/users/me`, {
-          method: 'PATCH',
-          headers: this._headers,
-          body: JSON.stringify({
-            // name: 'Машуля',
-            // about: 'Молодец'
-            name: data.name,
-            about: data.profession
-        })
-       }) //В ответ придет объект с обновленными данными пользователя
-       .then(res => this._parseAnswer(res))
-    }
-  
-
     //Отправляет новую карточку на сервер
-    sendNewCard({ data }){
+    sendNewCard(data){
       return fetch(`${this._baseUrl}/cards`, {
           method: 'POST',
           headers: this._headers,
           body: JSON.stringify({ //поля в карточке, которые отправляем
-            name: data.name,
-            link: data.link
+            name: data.place_name,
+            link: data.place_link
+        //     name: 'ДаБудетСнегЗимой',
+        //     link: 'https://mirpozitiva.ru/wp-content/uploads/2019/11/1480494344_kot_sneg.jpg'
         })
        }) //В ответ придет объект с новой карточкой
        .then(res => this._parseAnswer(res))
     }
 
     //Удаляет карточку
-    removeCard(){
-      return fetch(`${this._baseUrl}/cards/${_id}`, {
+    removeCard(cardId){
+      return fetch(`${this._baseUrl}/cards/${cardId}`, {
           method: 'DELETE',
           headers: this._headers
        }) //В ответ придет ХЗ что. Вероятно 200 ОК
@@ -73,7 +50,7 @@ export default class Api {
 
     //Лайкает карточку
     likeCard(cardId){
-      return fetch(`${this._baseUrl}/cards/${cardid}/likes`, {
+      return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
         method: 'PUT',
         headers: this._headers
      }) //В ответ придет обновленный json с карточкой. Массив лайков будет обновлен
@@ -82,22 +59,48 @@ export default class Api {
     
     //ДизЛайкает карточку
     disLikeCard(cardId){
-      return fetch(`${this._baseUrl}/cards/${cardid}/likes`, {
+      return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
         method: 'DELETE',
         headers: this._headers
      }) //В ответ придет ХЗ что. Вероятно 200 ОК
      .then(res => this._parseAnswer(res))
     }
 
+
+
+
+//------------ПРО ПРОФИЛЬ--------------------------------
+    //Забирает данные пользователя с сервера
+        getUserData(){
+          return fetch(`${this._baseUrl}/users/me`, {
+            method: 'GET',
+            headers: this._headers
+          }) //В ответ придет объект пользователя
+          .then(res => this._parseAnswer(res))
+      }
+  
+    //Отправляет новые данные профиля
+      setUserData(data){
+        return fetch(`${this._baseUrl}/users/me`, {
+            method: 'PATCH',
+            headers: this._headers,
+            body: JSON.stringify({
+              name: data.name,
+              about: data.profession
+          })
+         }) //В ответ придет объект с обновленными данными пользователя
+         .then(res => this._parseAnswer(res))
+      }
+
     //Обновление аватара
     updateAvatar(data){
       return fetch(`${this._baseUrl}/users/me/avatar`, {
         method: 'PATCH',
         headers: this._headers,
-        body: JSON.stringify({ //отправляесм ссылку на аватарку
+        body: JSON.stringify({
           avatar: data.avatar
         })
-      }) //В ответ придет ХЗ что. Вероятно 200 ОК или инфа о  пользователе
+      }) //В ответ придет объект с обновленными данными пользователя
       .then(res => this._parseAnswer(res))
     }
   }

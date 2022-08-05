@@ -3,10 +3,11 @@ export default class Card{
                  handleCardClick, handleCardDelete, 
                  handleLikeCard, handleDisLikeCard}){
         
-        this._likes = data.likes; 
+         
         this._cardId = data._id;  // id карточки, который пришел с сервера
         this._name = data.name; //название
         this._link = data.link; //ссылка-картинка
+        this._likes = data.likes; //массив с лайкнувшими пользователями. Нас интересует количество
 
         this._cardOwner = data.owner._id; //id владельца карточки
 
@@ -17,8 +18,8 @@ export default class Card{
 
         this._handleCardClick = handleCardClick; //Открывает попап с картинкой при клике на карточку
         this._handleCardDelete = handleCardDelete; //Открывает попап подтверждения удаления
-        this._handleLikeCard = handleLikeCard;
-        this._handleDisLikeCard = handleDisLikeCard;
+        //this._handleLikeCard = handleLikeCard;
+        //this._handleDisLikeCard = handleDisLikeCard;
     }
     
     _getTemplate(){ //Забирает разметку из html и клонирует содержимое шаблона карточки
@@ -39,18 +40,18 @@ export default class Card{
         });
 
         //на клик по кнопке Лайк   
-        this._likeButton.addEventListener('click', () => {
-            if (this._likeButton.classList.contains('card__like-button_active')) {
-                this._handleDisLikeCard(this._cardId);
-                this._toggleLikeCard();
-                console.log('дизлайкнули карточку. фу');
-            } else {
-                this._handleLikeCard(this._cardId);
-                this._toggleLikeCard();
-                console.log('лайкнули карточку. АААа');
+        // this._likeButton.addEventListener('click', () => {
+        //     if (this._likeButton.classList.contains('card__like-button_active')) {
+        //         this._handleDisLikeCard(this._cardId);
+        //         this._toggleLikeCard();
+        //         console.log('дизлайкнули карточку. фу');
+        //     } else {
+        //         this._handleLikeCard(this._cardId);
+        //         this._toggleLikeCard();
+        //         console.log('лайкнули карточку. АААа');
 
-            }
-        })   
+        //     }
+        // });   
 
         //на клик по мусорке
         this._deleteButton.addEventListener('click', ()=>{
@@ -71,20 +72,20 @@ export default class Card{
         this._element = null;
     };
 
-    _availableRemoveButton() {
-        if (this._cardOwner !== this._userId) {
+    _availableRemoveButton() { //
+            if (this._cardOwner !== this._userId) {
+                console.log('я проверил и решил не рисовать мусорку на чужой карточке');
             this._deleteButton.remove();
         }
     }  
     
-    _hasMyLike(){
-        if (this._likes.some((user) => {
-            console.log('Мы тут уже лайкали?');
-            return user._id === this._userId
-        })) {
-            this._likeButton.classList.add("card__like-button_active"); //красим сердечко, если уже лайкали
-        }   
-    }
+    // _hasMyLike(){
+    //     if (this._likes.some((user) => {
+    //         return user._id === this._userId
+    //     })) {
+    //         this._likeButton.classList.add("card__like-button_active"); //красим сердечко, если уже лайкали
+    //     }   
+    // }
 
     generateCard(){
         // Нашли поля в карточке
@@ -100,7 +101,7 @@ export default class Card{
         this._cardImage.alt = this._name;
         this._cardTitle.textContent = this._name;
         this._likeCount.textContent = this._likes.length; //кол-во лайков
-        this._hasMyLike(); //Определяем,надо ли красить сердечко
+        //this._hasMyLike(); //Определяем,надо ли красить сердечко
         
         this._availableRemoveButton(); //Определяем нужно ли рисовать Мусорку
 

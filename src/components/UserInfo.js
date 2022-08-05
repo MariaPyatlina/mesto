@@ -17,7 +17,8 @@ export default class UserInfo {
         const userInfoData = {
             name: this._name.textContent,
             profession: this._profession.textContent,
-            avatar: this._avatar.src
+            avatar: this._avatar.src,
+
         }   
         return userInfoData;     
     }
@@ -26,13 +27,5 @@ export default class UserInfo {
         this._name.textContent = data.name;
         this._profession.textContent = data.about;
         this._avatar.src = data.avatar;
-        
-        console.log('Лежит в профиле', this._name.textContent);
-        console.log('Лежит в профиле', this._profession.textContent);
-        console.log('Лежит в профиле', this._avatar.src);
-
-        console.log('Положили в name', data.name);
-        console.log('Положили в профессион', data.profession);
-        console.log('в аватар', data.avatar);
     }
 }

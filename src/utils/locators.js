@@ -18,7 +18,7 @@ export const avatar = profileContainer.querySelector('.profile__avatar');
 
 //Секция Элементы
 const sectionElements = document.querySelector('.elements');  //Блок Элементы
-const sectionElementsContainer = document.querySelector('.cards-container'); //Блок с карточками
+export const sectionElementsContainer = document.querySelector('.cards-container'); //Блок с карточками
 const cardItem = sectionElementsContainer.querySelector('.card'); //Карточка
 
 //Шаблон карточки
