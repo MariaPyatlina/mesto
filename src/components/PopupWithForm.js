@@ -40,7 +40,6 @@ export default class PopupWithForm extends Popup {
     }
 
     renderLoading(isLoading){ //При загрузке данных меняется название кнопки
-        console.log ('initialTitleButton', initialTitleButton);
         if (isLoading) {
             this._buttonSubmit.textContent = 'Сохранение...';
         }

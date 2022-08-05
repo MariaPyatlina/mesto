@@ -14,6 +14,7 @@ export const buttonEdit = profileContainer.querySelector('.profile__edit-button'
 const userName = profileContainer.querySelector('.profile__name'); //Имя пользователя
 const userProfession = profileContainer.querySelector('.profile__profession'); //Профессия пользователя
 export const buttonUpdateAvatar = profileContainer.querySelector('.profile__avatar-button'); //Кнопка Редактировать аватар
+export const avatar = profileContainer.querySelector('.profile__avatar');
 
 //Секция Элементы
 const sectionElements = document.querySelector('.elements');  //Блок Элементы
@@ -73,6 +74,7 @@ export const locators = {
     userName: userName, //Имя пользователя
     userProfession: userProfession, //Профессия пользователя
     buttonUpdateAvatar: buttonUpdateAvatar, //Редактировать аватар
+    avatar: avatar,
 
 //Секция Элементы
     sectionElements: sectionElements,  //Блок Элементы

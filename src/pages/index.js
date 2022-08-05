@@ -13,7 +13,7 @@ import UserInfo from '../components/UserInfo.js';
 //Константы
 //import { initialCards } from '../utils/InitialCards.js';
 import { locators } from '../utils/locators.js';
-import {buttonEdit, buttonAdd, buttonUpdateAvatar} from '../utils/locators.js';
+import {buttonEdit, buttonAdd, buttonUpdateAvatar, avatar} from '../utils/locators.js';
 import {url, token, cohortId} from '../utils/locators.js'
 
 const configurationForValidator = {
@@ -36,6 +36,8 @@ const config = {
 //API
 let api = new Api(config); 
 
+let userId;
+
 //Отрисовываем начальные карточки
 api.getInitialCards()
     .then(items => {
@@ -54,29 +56,11 @@ api.getInitialCards()
 //Забираем данные о пользователе с сервера и отрисовываем их
 api.getUserData()
     .then(data => {
-        console.log('userDataFromServer = ', data.name, data.about, data.avatar);
-        userInfo.setUserInfo(data);
-
-        // const userInfo = new UserInfo({ //Экземпляр класса с данными из профиля пользователя.
-        //     name: data.name, 
-        //     profession: data.about,
-        //     avatar: data.avatar
-        // });
-        // userInfo.setUserInfo(data); 
-    }
+        userInfo.setUserInfo(data); 
+        userId = data._id;
+    console.log(data.cohort, data._id);   }
 ).catch(err => console.log(err));
 
-
-
-
-
-
-
-// api.updateAvatar(data)
-//     .then(data => {
-//         //TODO здесь нужно написать функцию отправки данных
-//     })
-//     .catch(err => console.log(err));
 
 
 
@@ -185,8 +169,19 @@ buttonEdit.addEventListener('click', openPopupEditProfile); //По кнопке 
 //Попап редактирования аватарки
 const popupUpdateAvatar = new PopupWithForm({
     popupSelector: '.popup_type_update-avatar',
-    handleFormSubmit: () => {
-        console.log('Сохранили таки новый аватар');
+    handleFormSubmit: (data) => {
+        //Отправляет аватар на сервер
+        popupUpdateAvatar.renderLoading(true);
+        console.log('data = ', data);
+        api.updateAvatar(data)
+        .then((data) => {
+            avatar.src = data.avatar;
+            popupUpdateAvatar.close();
+        })
+        .catch(err => console.log(err))
+        .finally(() => {
+            popupUpdateAvatar.renderLoading(false);
+        })
     }
 })
 popupUpdateAvatar.setEventListeners();

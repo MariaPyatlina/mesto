@@ -73,7 +73,7 @@ export default class Api {
       return fetch(`${this._baseUrl}/cards/${_id}/likes`, {
         method: 'PUT',
         headers: this._headers
-     }) //В ответ придет ХЗ что. Вероятно 200 ОК
+     }) //В ответ придет обновленный json с карточкой. Массив лайков будет обновлен
      .then(res => this._parseAnswer(res))
     }
     
@@ -87,14 +87,14 @@ export default class Api {
     }
 
     //Обновление аватара
-    updateAvatar({data}){
+    updateAvatar(data){
       return fetch(`${this._baseUrl}/users/me/avatar`, {
         method: 'PATCH',
         headers: this._headers,
         body: JSON.stringify({ //отправляесм ссылку на аватарку
-          avatar: data.avatarLink,
+          avatar: data.avatar
         })
-      }) //В ответ придет ХЗ что. Вероятно 200 ОК
+      }) //В ответ придет ХЗ что. Вероятно 200 ОК или инфа о  пользователе
       .then(res => this._parseAnswer(res))
     }
   }

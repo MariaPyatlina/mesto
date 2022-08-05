@@ -8,6 +8,7 @@ export default class Card{
         this._cardOwner = data.owner._id; //id владельца карточки
 
         this._userId = userId; //id себя
+        console.log(this._userId, 'userId');
         
         this._cardSelector = cardSelector;
 
@@ -86,6 +87,7 @@ export default class Card{
         this._cardTitle.textContent = this._name;
         this._likeCount.textContent = this._likes.length; //кол-во лайков
         this._hasMyLike(); //Определяем,надо ли красить сердечко
+        
         this._availableRemoveButton(); //Определяем нужно ли рисовать Мусорку
 
         this._setEventListeners();
