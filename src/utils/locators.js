@@ -11,8 +11,8 @@ const profileArea = document.querySelector('.profile'); //Область Про�
 export const buttonAdd = profileArea.querySelector('.profile__add-button'); //Кнопка "Добавить"
 const profileContainer = document.querySelector('.profile__container'); 
 export const buttonEdit = profileContainer.querySelector('.profile__edit-button'); //Кнопка Редактировать
-const userName = profileContainer.querySelector('.profile__name'); //Имя пользователя
-const userProfession = profileContainer.querySelector('.profile__profession'); //Профессия пользователя
+export const userName = profileContainer.querySelector('.profile__name'); //Имя пользователя
+export const userProfession = profileContainer.querySelector('.profile__profession'); //Профессия пользователя
 export const buttonUpdateAvatar = profileContainer.querySelector('.profile__avatar-button'); //Кнопка Редактировать аватар
 export const avatar = profileContainer.querySelector('.profile__avatar');
 

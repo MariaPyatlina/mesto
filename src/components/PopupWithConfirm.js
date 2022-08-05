@@ -6,12 +6,16 @@ export default class PopupWithConfirm extends Popup {
         this._popupForm = this._popup.querySelector('.popup_form');
     }
 
+    _handleSubmitDelete(){
+
+    }
+
     setEventListeners(){
         super.setEventListeners();
-        // this._formPopup.addEventListeners('submit', (evt) =>{
-        //     evt.preventDefault();
-        //     //TODO тут как-то надо удалять карточку
-        //     console.log('тут как-то надо удалять карточку');
-        // })
+        this._formPopup.addEventListeners('submit', (evt) =>{
+            evt.preventDefault();
+            //this._handleSubmitDelete();
+            console.log('тут как-то надо удалять карточку');
+        })
     }
 }

@@ -1,3 +1,5 @@
+import { data } from "autoprefixer";
+
 export default class Api {
     constructor(options) {
       this._baseUrl = options.baseUrl; //строка
@@ -5,7 +7,6 @@ export default class Api {
     }
 
 //TODO Обработать ответы в запросах.
-
     _parseAnswer(res){
         if (res.ok) {
           console.log ('карточки загружены успешно');
@@ -14,7 +15,7 @@ export default class Api {
         else Promise.reject(`ОШибка ${res.status}`);
     }
 
-        //Забирает массив карточке с сервера
+    //Забирает массив карточке с сервера
     getInitialCards() {
           return fetch(`${this._baseUrl}/cards`, {
             method: 'GET',
@@ -33,13 +34,15 @@ export default class Api {
     }
 
     //Отправляет новые данные профиля
-    setUserData(){
+    setUserData(data){
       return fetch(`${this._baseUrl}/users/me`, {
           method: 'PATCH',
           headers: this._headers,
-          body: JSON.stringify({ //TODO заменить поля которые отправляем
-            name: "Marie Skłodowska Curie",
-            about: "Physicist and Chemist",
+          body: JSON.stringify({
+            // name: 'Машуля',
+            // about: 'Молодец'
+            name: data.name,
+            about: data.profession
         })
        }) //В ответ придет объект с обновленными данными пользователя
        .then(res => this._parseAnswer(res))
@@ -53,7 +56,7 @@ export default class Api {
           headers: this._headers,
           body: JSON.stringify({ //поля в карточке, которые отправляем
             name: data.name,
-            link: data.link,
+            link: data.link
         })
        }) //В ответ придет объект с новой карточкой
        .then(res => this._parseAnswer(res))
@@ -69,8 +72,8 @@ export default class Api {
     }
 
     //Лайкает карточку
-    likeCard(){
-      return fetch(`${this._baseUrl}/cards/${_id}/likes`, {
+    likeCard(cardId){
+      return fetch(`${this._baseUrl}/cards/${cardid}/likes`, {
         method: 'PUT',
         headers: this._headers
      }) //В ответ придет обновленный json с карточкой. Массив лайков будет обновлен
@@ -78,8 +81,8 @@ export default class Api {
     }
     
     //ДизЛайкает карточку
-    disLikeCard(){
-      return fetch(`${this._baseUrl}/cards/${_id}/likes`, {
+    disLikeCard(cardId){
+      return fetch(`${this._baseUrl}/cards/${cardid}/likes`, {
         method: 'DELETE',
         headers: this._headers
      }) //В ответ придет ХЗ что. Вероятно 200 ОК

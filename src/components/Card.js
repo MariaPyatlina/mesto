@@ -1,5 +1,8 @@
 export default class Card{
-    constructor({data, userId, cardSelector, handleCardClick, handleCardDelete}){
+    constructor({data, cardSelector, userId, 
+                 handleCardClick, handleCardDelete, 
+                 handleLikeCard, handleDisLikeCard}){
+        
         this._likes = data.likes; 
         this._cardId = data._id;  // id карточки, который пришел с сервера
         this._name = data.name; //название
@@ -14,6 +17,8 @@ export default class Card{
 
         this._handleCardClick = handleCardClick; //Открывает попап с картинкой при клике на карточку
         this._handleCardDelete = handleCardDelete; //Открывает попап подтверждения удаления
+        this._handleLikeCard = handleLikeCard;
+        this._handleDisLikeCard = handleDisLikeCard;
     }
     
     _getTemplate(){ //Забирает разметку из html и клонирует содержимое шаблона карточки
@@ -34,14 +39,23 @@ export default class Card{
         });
 
         //на клик по кнопке Лайк   
-        this._likeButton.addEventListener('click', ()=>{
-            this._toggleLikeCard();
-        });
+        this._likeButton.addEventListener('click', () => {
+            if (this._likeButton.classList.contains('card__like-button_active')) {
+                this._handleDisLikeCard(this._cardId);
+                this._toggleLikeCard();
+                console.log('дизлайкнули карточку. фу');
+            } else {
+                this._handleLikeCard(this._cardId);
+                this._toggleLikeCard();
+                console.log('лайкнули карточку. АААа');
+
+            }
+        })   
 
         //на клик по мусорке
         this._deleteButton.addEventListener('click', ()=>{
             this._handleCardDelete(this._cardId);
-            //this._removeCard();
+            //this.removeCard();
         });
     };
 
@@ -52,7 +66,7 @@ export default class Card{
         this._likeButton.classList.toggle("card__like-button_active"); //меняет фон сердечка
     };
    
-    _removeCard(){ //Удаляет карточку
+    removeCard(){ //Удаляет карточку
         this._element.remove();
         this._element = null;
     };

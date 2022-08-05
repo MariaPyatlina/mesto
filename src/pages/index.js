@@ -11,9 +11,8 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import UserInfo from '../components/UserInfo.js';
 
 //Константы
-//import { initialCards } from '../utils/InitialCards.js';
 import { locators } from '../utils/locators.js';
-import {buttonEdit, buttonAdd, buttonUpdateAvatar, avatar} from '../utils/locators.js';
+import {buttonEdit, buttonAdd, buttonUpdateAvatar, avatar, userProfession, userName} from '../utils/locators.js';
 import {url, token, cohortId} from '../utils/locators.js'
 
 const configurationForValidator = {
@@ -51,36 +50,131 @@ api.getInitialCards()
             },  '.cards-container');
             defaultCardList.renderItems();
     }
-).catch(err => console.log(err));
+).catch(err => console.log(`Ошибка при загрузке карточек с сервера ${err}`));
+
 
 //Забираем данные о пользователе с сервера и отрисовываем их
 api.getUserData()
     .then(data => {
         userInfo.setUserInfo(data); 
         userId = data._id;
-    console.log(data.cohort, data._id);   }
-).catch(err => console.log(err));
+    console.log('что пришло с сервера', data.cohort, data._id);   }
+).catch(err => console.log(`Ошибка при загрузке профиля пользователя с сервера ${err}`));
 
 
 
+//---------------------ПРОФИЛЬ
+const userInfo = new UserInfo({ //Экземпляр класса с данными из профиля пользователя.
+    name: ".profile__name", 
+    profession: ".profile__profession",
+    avatar: ".profile__avatar"
+});
+console.log ('userInfo', userInfo);
+
+//Функция открытия попапа
+function openPopupEditProfile() {
+    popupEditProfileValidation.hideErrorMessage(); //Скрыли старые ошибки
+    const userData = userInfo.getUserInfo();
+    popupEditProfile.setInputValue(userData);
+    popupEditProfile.open();
+}
+buttonEdit.addEventListener('click', openPopupEditProfile); //По кнопке Редактировать открываем попап и передаем установленные значения в поля ввода
+
+
+//Создаем попап редактирования профиля пользователя
+const popupEditProfile = new PopupWithForm({
+    popupSelector: '.popup_type_edit-profile', 
+    handleFormSubmit: (data) => { //загружает данные из формы на сервер
+        popupEditProfile.renderLoading(true);
+        api.setUserData(data)
+        .then((data) => {
+            console.log('Что пришло в dataFromForm', data);
+            userInfo.setUserInfo(data); //Здесь передаем в профиль пользователя значения из полей input попапа
+            popupEditProfile.close();
+        })
+        .catch((err) => {console.log (`Ошибка загрузки данных ${ err}`)})
+        .finally(() => {popupEditProfile.renderLoading(false);}) 
+    }
+});
+popupEditProfile.setEventListeners(); //добавили ему слушателей, чтобы можно было его закрыть.
+
+
+//Попап редактирования аватарки
+const popupUpdateAvatar = new PopupWithForm({
+    popupSelector: '.popup_type_update-avatar',
+    handleFormSubmit: (data) => { //Отправляет аватар на сервер
+        popupUpdateAvatar.renderLoading(true);
+        api.updateAvatar(data)
+        .then((data) => {
+            avatar.src = data.avatar;
+            popupUpdateAvatar.close();
+        })
+        .catch(err => console.log(err))
+        .finally(() => {
+            popupUpdateAvatar.renderLoading(false);
+        })
+    }
+})
+popupUpdateAvatar.setEventListeners();
+
+buttonUpdateAvatar.addEventListener('click', () => {
+    popupUpdateProfileValidation.hideErrorMessage();
+    popupUpdateProfileValidation.toggleButtonState();
+    popupUpdateAvatar.open();
+})
+
+//-----------------------ВАЛИДАЦИЯ
+//Валидация полей в попапах
+const popupAddCardValidation = new FormValidator(configurationForValidator, locators.popupAddCard); 
+popupAddCardValidation.enableValidation();  //при добавлении карточки
+
+const popupEditProfileValidation = new FormValidator(configurationForValidator, locators.popupEditProfile); 
+popupEditProfileValidation.enableValidation();  //при редактировании профиля
+
+const popupUpdateProfileValidation = new FormValidator(configurationForValidator, locators.popupUpdateAvatar); 
+popupUpdateProfileValidation.enableValidation();  //при обновлении аватарки
 
 
 
 
 //---------------------ДОБАВИТЬ КАРТОЧКУ
-// {data, userId, cardSelector, handleCardClick, handleCardDelete}
 function createCard (item){ //Функция создания новой каточки из класса
     const card = new Card({
         data: item, 
-        //userId: userId,
         cardSelector: '.card_template',
-        //handleCardClick: handleCardClick,
+        userId: userId,
+        //Открыть попап картинки, Работает
         handleCardClick: (name, link) => {
             viewImageInPopup.open(name, link);
         },
+        //Удалить карточку
         handleCardDelete: (cardId) => {
             popupRemoveCard.open();
-            //Обрабатывать нажатие на ДА
+            //Обрабатывать нажатие на ДА (Висит слушатель на карточке)?
+                api.removeCard(cardId)
+                .then( () => {
+                    card.removeCard();
+                    popupRemoveCard.close();
+                })
+                .catch(err => console.log(`Ошибка удаления карточки ${err}`))
+        },
+        //Лайкнуть карточку
+        handleLikeCard: (cardId) => {
+            api.likeCard(cardId)
+            .then((data) => {
+                card.toggleLikeCard(data);
+            })
+            .catch(err => console.log(`Ошибка лайка ${err}`))
+        },
+        //Дизлайкнуть карточку
+        handleDisLikeCard: (cardId) => {
+            api.disLikeCard(cardId)
+            .then((data) => {
+                console.log('2');
+                card.toggleLikeCard(data);
+
+            })
+            .catch(err => console.log(`Ошибка лайка ${err}`))
         }
     });
     const cardElement = card.generateCard(); //Создаем карточку и возвращаем наружу
@@ -94,12 +188,6 @@ const popupAddCard = new PopupWithForm({
 })
 popupAddCard.setEventListeners(); //Добавляем слушателей, чтобы можно было его закрыть
 
-
-
-//Открывает попап по клику на картинку
-// function handleCardClick(name, link){
-//     viewImageInPopup.open(name, link);
-// }
 
 //Попап просмотра картинки
 const viewImageInPopup = new PopupWithImage('.popup_type_open-picture');
@@ -130,78 +218,28 @@ buttonAdd.addEventListener('click', () => {
     popupAddCard.open();
 });  
 
-
-
-
-
-//---------------------ПРОФИЛЬ
-const userInfo = new UserInfo({ //Экземпляр класса с данными из профиля пользователя.
-    name: ".profile__name", 
-    profession: ".profile__profession",
-    avatar: ".profile__avatar"
-});
-
-console.log ('userInfo', userInfo);
-
-//Создаем попап редактирования профиля пользователя
-const popupEditProfile = new PopupWithForm({
-    popupSelector: '.popup_type_edit-profile', 
-    handleFormSubmit: (data) => {
-        userInfo.setUserInfo(data); //Здесь передаем в профиль пользователя значения из полей input попапа
-        popupEditProfile.close();
-    }
-});
-
-//Функция открытия попапа
-function openPopupEditProfile() {
-    popupEditProfileValidation.hideErrorMessage(); //Скрыли старые ошибки
-    const userData = userInfo.getUserInfo();
-    popupEditProfile.setInputValue(userData);
-    popupEditProfile.open();
+function handleCardDeleteTest (card){
+    card.removeCard(card);
+    popupRemoveCard.close();
 }
 
-popupEditProfile.setEventListeners(); //добавили ему слушателей, чтобы можно было его закрыть.
-
-buttonEdit.addEventListener('click', openPopupEditProfile); //По кнопке Редактировать открываем попап и передаем установленные значения в поля ввода
 
 
 
-//Попап редактирования аватарки
-const popupUpdateAvatar = new PopupWithForm({
-    popupSelector: '.popup_type_update-avatar',
-    handleFormSubmit: (data) => {
-        //Отправляет аватар на сервер
-        popupUpdateAvatar.renderLoading(true);
-        console.log('data = ', data);
-        api.updateAvatar(data)
-        .then((data) => {
-            avatar.src = data.avatar;
-            popupUpdateAvatar.close();
-        })
-        .catch(err => console.log(err))
-        .finally(() => {
-            popupUpdateAvatar.renderLoading(false);
-        })
-    }
-})
-popupUpdateAvatar.setEventListeners();
-
-buttonUpdateAvatar.addEventListener('click', () => {
-    console.log('нажали на редактировать аватарку');
-    popupUpdateProfileValidation.hideErrorMessage(); //Скрыли старые ошибки
-    popupUpdateProfileValidation.toggleButtonState();
-    popupUpdateAvatar.open();
-})
 
 
 
-//-----------------------ВАЛИДАЦИЯ
-//Валидация полей в попапах
-const popupAddCardValidation = new FormValidator(configurationForValidator, locators.popupAddCard); 
-popupAddCardValidation.enableValidation();  //при добавлении карточки
 
-const popupEditProfileValidation = new FormValidator(configurationForValidator, locators.popupEditProfile); 
-popupEditProfileValidation.enableValidation();  //при редактировании профиля
 
-const popupUpdateProfileValidation = new FormValidator(configurationForValidator, locators.popupUpdateAvatar); 
-popupUpdateProfileValidation.enableValidation();  //при обновлении аватарки
+
+
+// //-----------------------ВАЛИДАЦИЯ
+// //Валидация полей в попапах
+// const popupAddCardValidation = new FormValidator(configurationForValidator, locators.popupAddCard); 
+// popupAddCardValidation.enableValidation();  //при добавлении карточки
+
+// const popupEditProfileValidation = new FormValidator(configurationForValidator, locators.popupEditProfile); 
+// popupEditProfileValidation.enableValidation();  //при редактировании профиля
+
+// const popupUpdateProfileValidation = new FormValidator(configurationForValidator, locators.popupUpdateAvatar); 
+// popupUpdateProfileValidation.enableValidation();  //при обновлении аватарки
