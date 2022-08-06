@@ -87,7 +87,7 @@ const popupUpdateAvatar = new PopupWithForm({
         popupUpdateAvatar.renderLoading(true);
         api.updateAvatar(data)
         .then((data) => {
-            avatar.src = data.avatar;
+            userInfo.setUserInfo(data);
             popupUpdateAvatar.close();
         })
         .catch(err => console.log(err))
