@@ -148,7 +148,7 @@ function createCard (item){ //Функция создания новой кат�
         handleLikeCard: (cardId) => {
             api.likeCard(cardId)
             .then((data) => {
-                card.handleLikeCard(data);
+                card.handleLikeCount(data);
             })
             .catch(err => console.log(`Ошибка лайка ${err}`))
         },
@@ -157,10 +157,10 @@ function createCard (item){ //Функция создания новой кат�
             api.disLikeCard(cardId)
             .then((data) => {
                 console.log('2');
-                card.handleDisLikeCard(data);
+                card.handleLikeCount(data);
 
             })
-            .catch(err => console.log(`Ошибка лайка ${err}`))
+            .catch(err => console.log(`Ошибка ДИЗлайка ${err}`))
         }
     });
     const cardElement = card.generateCard(); //Создаем карточку и возвращаем наружу
@@ -207,18 +207,6 @@ viewImageInPopup.setEventListeners();  //добавили ему слушате�
 const popupRemoveCard = new PopupWithConfirm('.popup_type_remove-card', api);
 popupRemoveCard.setEventListeners(); 
 
-function handleCardDelete(){
-    popupRemoveCard.open();
-};
-
-
-
-//Функция сохраняющая введенные данные нового места
-function handleAddCardFormSubmit (obj) {
-    const card = createCard(obj);
-    defaultCardList.addItem(card);    
-    popupAddCard.close();
-}
 
 //Ждем клик на кнопку +
 buttonAdd.addEventListener('click', () => {

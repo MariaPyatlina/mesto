@@ -33,36 +33,44 @@ export default class Card{
 
     //Навешивает слушателей на события
     _setEventListeners(){
-        //на клик по картинке
-        this._cardImage.addEventListener('click', ()=>{
+        
+        this._cardImage.addEventListener('click', ()=>{ //на клик по картинке
             this._handleCardClick(this._name, this._link);
         });
 
-        //на клик по мусорке
-        this._deleteButton.addEventListener('click', ()=>{
+        
+        this._deleteButton.addEventListener('click', ()=>{ //на клик по мусорке
             console.log('внутри карточки this._cardId', this._cardId);
             this._handleCardDelete(this._cardId);
-            //this.removeCard();
         });
 
-        //на клик по кнопке Лайк   
-        this._likeButton.addEventListener('click', () => {
+        
+        this._likeButton.addEventListener('click', () => {//на клик по кнопке Лайк   
             if (this._likeButton.classList.contains('card__like-button_active')) {
                 this._handleDisLikeCard(this._cardId);
                 this._toggleLikeCard();
-                console.log('дизлайкнули карточку. фу');
+                console.log('----');
             } else {
                 this._handleLikeCard(this._cardId);
                 this._toggleLikeCard();
-                console.log('лайкнули карточку. АААа');
+                console.log('+++++');
             }
         });
     };
 
+
     _toggleLikeCard(){ //Переключает фон сердечка, меняет счетчик
-        //this._likeCount.textContent = this._likes.length;
+        //this._likes = data.likes;
+       // this._likeCount.textContent = this._likes.length;
         this._likeButton.classList.toggle("card__like-button_active"); //меняет фон сердечка
     };
+
+
+    handleLikeCount(data){
+        this._likes = data.likes;
+        this._likeCount.textContent = this._likes.length;
+        //this._likeButton.classList.toggle("card__like-button_active");
+    }
    
     removeCard(){ //Удаляет карточку
         this._element.remove();
@@ -77,7 +85,7 @@ export default class Card{
     
     _hasMyLike(){
         if (this._likes.some((user) => {
-            return user._id === this._userId
+            return user._id === this._userId;
         })) {
             this._likeButton.classList.add("card__like-button_active"); //красим сердечко, если уже лайкали
         }   
