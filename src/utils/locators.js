@@ -6,6 +6,15 @@ export const config = {
     }
 }
 
+export const configurationForValidator = {
+    formSelector: '.popup__form',  //форма в попапе
+    inputSelector: '.popup__input-field', //поле ввода в форме
+    submitButtonSelector: '.popup__save-button',  //кнопка Сохранить на форме
+    inactiveButtonClass: 'popup__save-button_invalid',  //Неактивная кнопка Сохранить
+    inputErrorClass: 'popup__input-field_type_error',  // Поле ввода подсвечено с ошибкой
+    errorClass: 'popup__input-error_active'  //Текст ошибки становится видимым 
+};
+
 const popupList = document.querySelectorAll('.popup'); //все попапы
 const closePopupButtonList = document.querySelectorAll('.popup__close-button'); //все кнопки закрыть на попапах
 

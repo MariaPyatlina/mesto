@@ -1,5 +1,6 @@
 import './index.css';
 import { config } from '../utils/locators.js'; //авторизация
+import {configurationForValidator } from '../utils/locators.js'; //валидация
 
 //Классы
 import Api from '../components/Api.js';
@@ -15,18 +16,10 @@ import UserInfo from '../components/UserInfo.js';
 import { locators } from '../utils/locators.js';
 import {buttonEdit, buttonAdd, buttonUpdateAvatar, avatar, sectionElementsContainer, userProfession, userName} from '../utils/locators.js';
 
-const configurationForValidator = {
-    formSelector: '.popup__form',  //форма в попапе
-    inputSelector: '.popup__input-field', //поле ввода в форме
-    submitButtonSelector: '.popup__save-button',  //кнопка Сохранить на форме
-    inactiveButtonClass: 'popup__save-button_invalid',  //Неактивная кнопка Сохранить
-    inputErrorClass: 'popup__input-field_type_error',  // Поле ввода подсвечено с ошибкой
-    errorClass: 'popup__input-error_active'  //Текст ошибки становится видимым 
-};
 
 
 //API
-let api = new Api(config); 
+const api = new Api(config); 
 let userId = null;
 
 //Отрисовываем начальные карточки
