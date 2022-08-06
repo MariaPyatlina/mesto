@@ -37,17 +37,17 @@ let api = new Api(config);
 
 let userId = null;
 
+
 //Отрисовываем начальные карточки
 api.getInitialCards()
     .then(items => {
-        console.log('items = ', items);
-        console.log(items[0]);
         const defaultCardList = new Section(
             {   data: items,
                 renderer: (item) => {
                     defaultCardList.addItem(createCard(item));
                 }
             },  '.cards-container');
+            console.log('defaultCardList', defaultCardList);
             defaultCardList.renderItems();
     }
 ).catch(err => console.log(`Ошибка при загрузке карточек с сервера ${err}`));
@@ -69,7 +69,6 @@ const userInfo = new UserInfo({ //Экземпляр класса с данны�
     profession: ".profile__profession",
     avatar: ".profile__avatar"
 });
-console.log ('userInfo', userInfo);
 
 //Функция открытия попапа
 function openPopupEditProfile() {
@@ -88,7 +87,6 @@ const popupEditProfile = new PopupWithForm({
         popupEditProfile.renderLoading(true);
         api.setUserData(data)
         .then((data) => {
-            console.log('Что пришло в dataFromForm', data);
             userInfo.setUserInfo(data); //Здесь передаем в профиль пользователя значения из полей input попапа
             popupEditProfile.close();
         })
@@ -139,54 +137,56 @@ function createCard (item){ //Функция создания новой кат�
         //Открыть попап картинки, Работает
         handleCardClick: (name, link) => {
             viewImageInPopup.open(name, link);
-        }
+        },
         //Удалить карточку
-        // handleCardDelete: (cardId) => {
-        //     popupRemoveCard.open();
-        //     //TODO ДОБАВИТЬ ожидание нажатия на ДА (Висит слушатель на карточке)?
-        //         api.removeCard(cardId)
-        //         .then(() => {
-        //             console.log('я что-то удалил?');
-        //             card.removeCard();
-        //             popupRemoveCard.close();
-        //         })
-        //         .catch(err => console.log(`Ошибка удаления карточки ${err}`))
-        // },
-        //Лайкнуть карточку
-        // handleLikeCard: (cardId) => {
-        //     api.likeCard(cardId)
-        //     .then((data) => {
-        //         card.toggleLikeCard(data);
-        //     })
-        //     .catch(err => console.log(`Ошибка лайка ${err}`))
-        // },
-        //Дизлайкнуть карточку
-        // handleDisLikeCard: (cardId) => {
-        //     api.disLikeCard(cardId)
-        //     .then((data) => {
-        //         console.log('2');
-        //         card.toggleLikeCard(data);
+        handleCardDelete: (cardId) => {
+            popupRemoveCard.open(cardId, card);
+            //запрос на удаление карточки вынесен в класс попапа
+        },
 
-        //     })
-        //     .catch(err => console.log(`Ошибка лайка ${err}`))
-        // }
+        //Лайкнуть карточку
+        handleLikeCard: (cardId) => {
+            api.likeCard(cardId)
+            .then((data) => {
+                card.handleLikeCard(data);
+            })
+            .catch(err => console.log(`Ошибка лайка ${err}`))
+        },
+        //Дизлайкнуть карточку
+        handleDisLikeCard: (cardId) => {
+            api.disLikeCard(cardId)
+            .then((data) => {
+                console.log('2');
+                card.handleDisLikeCard(data);
+
+            })
+            .catch(err => console.log(`Ошибка лайка ${err}`))
+        }
     });
     const cardElement = card.generateCard(); //Создаем карточку и возвращаем наружу
     return cardElement;
 }
 
+//Экземпляр класса Section
+const cardList = new Section ({
+      // data: items,
+        renderer: (item) => {
+            сardList.addItem(createCard(item));
+        }
+    },  '.cards-container');
+      
+
+
 //Создание попапа с формой добавления новой карточки
 const popupAddCard = new PopupWithForm({
     popupSelector:'.popup_type_add-card',
-    //handleFormSubmit: handleAddCardFormSubmit
     handleFormSubmit: (data) => {
-        console.log('data handleFormSubmit ', data );
         popupAddCard.renderLoading(true);
         api.sendNewCard(data)
         .then((data) => {
-            console.log('Пытаюсь создать карточку', data);
+//TO DO Добавить карточку на страницу
             const card = createCard(data);
-            //defaultCardList.addItem(card);   
+            cardList.addItem(card);   
             popupAddCard.close();
         })
         .catch(err => console.log(err))
@@ -204,12 +204,12 @@ viewImageInPopup.setEventListeners();  //добавили ему слушате�
 
 
 //Попап удаления карточки
-// const popupRemoveCard = new PopupWithConfirm('.popup_type_remove-card');
-// popupRemoveCard.setEventListeners(); 
+const popupRemoveCard = new PopupWithConfirm('.popup_type_remove-card', api);
+popupRemoveCard.setEventListeners(); 
 
-// function handleCardDelete(){
-//     popupRemoveCard.open();
-// };
+function handleCardDelete(){
+    popupRemoveCard.open();
+};
 
 
 
