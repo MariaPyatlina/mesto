@@ -32,8 +32,9 @@ let userId = null;
 //Отрисовываем начальные карточки
 api.getInitialCards()
     .then(items => {
+
         const defaultCardList = new Section(
-            {   data: items,
+            {   data: items.reverse(),
                 renderer: (item) => {
                     defaultCardList.addItem(createCard(item));
                 }
@@ -136,7 +137,6 @@ function createCard (item){ //Функция создания новой кат�
             api.disLikeCard(cardId)
             .then((data) => {
                 card.handleLikeCount(data);
-
             })
             .catch(err => console.log(`Ошибка ДИЗлайка ${err}`))
         }
@@ -162,7 +162,8 @@ const popupAddCard = new PopupWithForm({
         api.sendNewCard(data)
         .then((data) => {
             const card = createCard(data);
-            cardList.addItem(card);   
+            cardList.addItem(card);  
+            //cardList.reverse(); 
             popupAddCard.close();
         })
         .catch(err => console.log(err))
