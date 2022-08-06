@@ -1,7 +1,10 @@
-export const url = 'https://mesto.nomoreparties.co/v1/cohort-46';
-export const token = 'c053cf6b-6c0b-409e-b690-1c8f378e7fc7';
-export const cohortId = 'cohort-46';
-
+export const config = {
+    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-46',
+    headers: {
+      authorization: 'c053cf6b-6c0b-409e-b690-1c8f378e7fc7',
+      'Content-Type': 'application/json'
+    }
+}
 
 const popupList = document.querySelectorAll('.popup'); //все попапы
 const closePopupButtonList = document.querySelectorAll('.popup__close-button'); //все кнопки закрыть на попапах

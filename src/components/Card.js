@@ -3,7 +3,6 @@ export default class Card{
                  handleCardClick, handleCardDelete, 
                  handleLikeCard, handleDisLikeCard}){
         
-         
         this._cardId = data._id;  // id карточки, который пришел с сервера
         this._name = data.name; //название
         this._link = data.link; //ссылка-картинка
@@ -31,8 +30,8 @@ export default class Card{
         return this._element;
     }
 
-    //Навешивает слушателей на события
-    _setEventListeners(){
+    
+    _setEventListeners(){  //Навешивает слушателей на события
         
         this._cardImage.addEventListener('click', ()=>{ //на клик по картинке
             this._handleCardClick(this._name, this._link);
@@ -40,7 +39,6 @@ export default class Card{
 
         
         this._deleteButton.addEventListener('click', ()=>{ //на клик по мусорке
-            console.log('внутри карточки this._cardId', this._cardId);
             this._handleCardDelete(this._cardId);
         });
 
@@ -49,47 +47,42 @@ export default class Card{
             if (this._likeButton.classList.contains('card__like-button_active')) {
                 this._handleDisLikeCard(this._cardId);
                 this._toggleLikeCard();
-                console.log('----');
             } else {
                 this._handleLikeCard(this._cardId);
                 this._toggleLikeCard();
-                console.log('+++++');
             }
         });
     };
 
-
-    _toggleLikeCard(){ //Переключает фон сердечка, меняет счетчик
-        //this._likes = data.likes;
-       // this._likeCount.textContent = this._likes.length;
-        this._likeButton.classList.toggle("card__like-button_active"); //меняет фон сердечка
-    };
-
-
-    handleLikeCount(data){
-        this._likes = data.likes;
-        this._likeCount.textContent = this._likes.length;
-        //this._likeButton.classList.toggle("card__like-button_active");
-    }
    
     removeCard(){ //Удаляет карточку
         this._element.remove();
         this._element = null;
     };
 
-    _availableRemoveButton() { //
+    _toggleLikeCard(){ //Переключает фон сердечка
+        this._likeButton.classList.toggle("card__like-button_active");
+    };
+
+    handleLikeCount(data){  //Отображает количество лайков
+        this._likes = data.likes;
+        this._likeCount.textContent = this._likes.length;
+    }
+
+    _availableRemoveButton() { //Определяем нужно ли рисовать Мусорку
             if (this._cardOwner !== this._userId) {
             this._deleteButton.remove();
         }
     }  
     
-    _hasMyLike(){
+    _hasMyLike(){  //Определяем,надо ли красить сердечко
         if (this._likes.some((user) => {
             return user._id === this._userId;
         })) {
-            this._likeButton.classList.add("card__like-button_active"); //красим сердечко, если уже лайкали
+            this._likeButton.classList.add("card__like-button_active"); 
         }   
     }
+    
 
     generateCard(){
         // Нашли поля в карточке
@@ -105,8 +98,8 @@ export default class Card{
         this._cardImage.alt = this._name;
         this._cardTitle.textContent = this._name;
         this._likeCount.textContent = this._likes.length; //кол-во лайков
-        this._hasMyLike(); //Определяем,надо ли красить сердечко
-        this._availableRemoveButton(); //Определяем нужно ли рисовать Мусорку
+        this._hasMyLike(); 
+        this._availableRemoveButton(); 
 
         this._setEventListeners();
 

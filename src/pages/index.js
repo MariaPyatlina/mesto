@@ -1,4 +1,5 @@
 import './index.css';
+import { config } from '../utils/locators.js'; //авторизация
 
 //Классы
 import Api from '../components/Api.js';
@@ -13,7 +14,6 @@ import UserInfo from '../components/UserInfo.js';
 //Константы
 import { locators } from '../utils/locators.js';
 import {buttonEdit, buttonAdd, buttonUpdateAvatar, avatar, sectionElementsContainer, userProfession, userName} from '../utils/locators.js';
-import {url, token, cohortId} from '../utils/locators.js'
 
 const configurationForValidator = {
     formSelector: '.popup__form',  //форма в попапе
@@ -24,19 +24,10 @@ const configurationForValidator = {
     errorClass: 'popup__input-error_active'  //Текст ошибки становится видимым 
 };
 
-const config = {
-    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-46',
-    headers: {
-      authorization: 'c053cf6b-6c0b-409e-b690-1c8f378e7fc7',
-      'Content-Type': 'application/json'
-    }
-}
 
 //API
 let api = new Api(config); 
-
 let userId = null;
-
 
 //Отрисовываем начальные карточки
 api.getInitialCards()
@@ -47,7 +38,6 @@ api.getInitialCards()
                     defaultCardList.addItem(createCard(item));
                 }
             },  '.cards-container');
-            console.log('defaultCardList', defaultCardList);
             defaultCardList.renderItems();
     }
 ).catch(err => console.log(`Ошибка при загрузке карточек с сервера ${err}`));
@@ -58,9 +48,8 @@ api.getUserData()
     .then(data => {
         userInfo.setUserInfo(data); 
         userId = data._id;
-    console.log('что пришло с сервера', data.cohort, data._id);   }
+    }
 ).catch(err => console.log(`Ошибка при загрузке профиля пользователя с сервера ${err}`));
-
 
 
 //---------------------ПРОФИЛЬ
@@ -72,7 +61,7 @@ const userInfo = new UserInfo({ //Экземпляр класса с данны�
 
 //Функция открытия попапа
 function openPopupEditProfile() {
-    popupEditProfileValidation.hideErrorMessage(); //Скрыли старые ошибки
+    popupEditProfileValidation.hideErrorMessage();
     const userData = userInfo.getUserInfo();
     popupEditProfile.setInputValue(userData);
     popupEditProfile.open();
@@ -123,40 +112,29 @@ buttonUpdateAvatar.addEventListener('click', () => {
 
 
 
-
-
-
-
-
 //---------------------ДОБАВИТЬ КАРТОЧКУ
 function createCard (item){ //Функция создания новой каточки из класса
     const card = new Card({
         data: item, 
         cardSelector: '.card_template',
         userId: userId,
-        //Открыть попап картинки, Работает
-        handleCardClick: (name, link) => {
+        handleCardClick: (name, link) => {//Открыть попап картинки
             viewImageInPopup.open(name, link);
         },
-        //Удалить карточку
-        handleCardDelete: (cardId) => {
+        handleCardDelete: (cardId) => { //Удалить карточку
             popupRemoveCard.open(cardId, card);
             //запрос на удаление карточки вынесен в класс попапа
         },
-
-        //Лайкнуть карточку
-        handleLikeCard: (cardId) => {
+        handleLikeCard: (cardId) => {//Лайкнуть карточку
             api.likeCard(cardId)
             .then((data) => {
                 card.handleLikeCount(data);
             })
             .catch(err => console.log(`Ошибка лайка ${err}`))
         },
-        //Дизлайкнуть карточку
-        handleDisLikeCard: (cardId) => {
+        handleDisLikeCard: (cardId) => {//Дизлайкнуть карточку
             api.disLikeCard(cardId)
             .then((data) => {
-                console.log('2');
                 card.handleLikeCount(data);
 
             })
@@ -176,15 +154,13 @@ const cardList = new Section ({
     },  '.cards-container');
       
 
-
-//Создание попапа с формой добавления новой карточки
+//Попап добавления новой карточки
 const popupAddCard = new PopupWithForm({
     popupSelector:'.popup_type_add-card',
     handleFormSubmit: (data) => {
         popupAddCard.renderLoading(true);
         api.sendNewCard(data)
         .then((data) => {
-//TO DO Добавить карточку на страницу
             const card = createCard(data);
             cardList.addItem(card);   
             popupAddCard.close();
@@ -195,12 +171,12 @@ const popupAddCard = new PopupWithForm({
         })
     }
 })
-popupAddCard.setEventListeners(); //Добавляем слушателей, чтобы можно было его закрыть
+popupAddCard.setEventListeners();
 
 
 //Попап просмотра картинки
 const viewImageInPopup = new PopupWithImage('.popup_type_open-picture');
-viewImageInPopup.setEventListeners();  //добавили ему слушателей, чтобы можно было его закрыть.
+viewImageInPopup.setEventListeners(); 
 
 
 //Попап удаления карточки
@@ -210,28 +186,13 @@ popupRemoveCard.setEventListeners();
 
 //Ждем клик на кнопку +
 buttonAdd.addEventListener('click', () => {
-    popupAddCardValidation.hideErrorMessage();  //Скрыть ошибки
-    popupAddCardValidation.toggleButtonState(); //Переключить состояние кнопки
+    popupAddCardValidation.hideErrorMessage(); 
+    popupAddCardValidation.toggleButtonState();
     popupAddCard.open();
 });  
 
-function handleCardDeleteTest (card){
-    card.removeCard(card);
-    popupRemoveCard.close();
-}
 
-
-
-
-
-
-
-
-
-
-
-//-----------------------ВАЛИДАЦИЯ
-//Валидация полей в попапах
+//-----------------------ВАЛИДАЦИЯ //Валидация полей в попапах
 const popupAddCardValidation = new FormValidator(configurationForValidator, locators.popupAddCard); 
 popupAddCardValidation.enableValidation();  //при добавлении карточки
 
