@@ -82,6 +82,8 @@ const popupEditProfile = new PopupWithForm({
         api.setUserData(data)
         .then((data) => {
             userInfo.setUserInfo(data); //Здесь передаем в профиль пользователя значения из полей input попапа
+        })
+        .then(() => {
             popupEditProfile.close();
         })
         .catch((err) => {console.log (`Ошибка загрузки данных ${ err}`)})
@@ -99,6 +101,8 @@ const popupUpdateAvatar = new PopupWithForm({
         api.updateAvatar(data)
         .then((data) => {
             userInfo.setUserInfo(data);
+        })
+        then (() => {
             popupUpdateAvatar.close();
         })
         .catch(err => console.log(err))
@@ -173,7 +177,8 @@ const popupAddCard = new PopupWithForm({
         .then((data) => {
             const card = createCard(data);
             cardList.addItem(card);  
-            //cardList.reverse(); 
+        })
+        .then(() => {
             popupAddCard.close();
         })
         .catch(err => console.log(err))
