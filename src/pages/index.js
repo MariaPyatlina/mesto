@@ -26,13 +26,8 @@ let userId = null;
 Promise.all([api.getUserData(), api.getInitialCards()])
 // тут деструктурируете ответ от сервера, чтобы было понятнее, что пришло
   .then(([userData, initialCards]) => {
-    console.log('userData', userData);
-    console.log('initialCards', initialCards);
         userInfo.setUserInfo(userData); // тут установка данных пользователя
-        console.log('setUserInfo');
         userId = userData._id;   //запоминаем ид пользователя
-        console.log('userId', userId);
-        console.log('cardList в загрузке карточек с сервака', cardList);
         cardList.renderItems(initialCards.reverse()); // и тут отрисовка карточек     
   })
   .catch(err => {
@@ -84,10 +79,10 @@ const popupUpdateAvatar = new PopupWithForm({
         .then((data) => {
             userInfo.setUserInfo(data);
         })
-        then (() => {
+        .then (() => {
             popupUpdateAvatar.close();
         })
-        .catch(err => console.log(err))
+        .catch(err => console.log(`Ошибка редактирования аватарки ${ err}`))
         .finally(() => {
             popupUpdateAvatar.renderLoading(false);
         })
@@ -144,7 +139,6 @@ function createCard (item){ //Функция создания новой кат�
 //Экземпляр класса Section
 const cardList = new Section ({
         renderer: (card) => {
-            console.log('cardList', cardList);
             cardList.addItem(createCard(card));
         }
     },  '.cards-container');
@@ -157,15 +151,12 @@ const popupAddCard = new PopupWithForm({
         popupAddCard.renderLoading(true);
         api.sendNewCard(data)
         .then((data) => {
-            //const card = createCard(data);
-            console.log('cardList', cardList);
             cardList.addItem(createCard(data)); 
-
         })
         .then(() => {
             popupAddCard.close();
         })
-        .catch(err => console.log(err))
+        .catch(err => console.log(`Ошибка добавления новой карточки ${err}`))
         .finally(() => {
             popupAddCard.renderLoading(false);
         })
