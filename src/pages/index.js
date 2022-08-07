@@ -22,40 +22,22 @@ import {buttonEdit, buttonAdd, buttonUpdateAvatar, avatar, sectionElementsContai
 const api = new Api(config); 
 let userId = null;
 
-// Promise.all([api.getUserData(), api.getInitialCards()])
-// // тут деструктурируете ответ от сервера, чтобы было понятнее, что пришло
-//   .then(([userData, initialCards]) => {
-//         userInfo.setUserInfo(userData); // тут установка данных пользователя
-//         userId = data._id;   //запоминаем ид пользователя
-//         defaultCardList.renderItems(); // и тут отрисовка карточек     
-//   })
-//   .catch(err => {
-//     console.log(`Ошибка при загрузке данных с сервера ${err}`) // тут ловим ошибку
-//   });
-
-//Отрисовываем начальные карточки
-api.getInitialCards()
-    .then(items => {
-
-        const defaultCardList = new Section(
-            {   data: items.reverse(),
-                renderer: (item) => {
-                    defaultCardList.addItem(createCard(item));
-                }
-            },  '.cards-container');
-            defaultCardList.renderItems();
-    }
-).catch(err => console.log(`Ошибка при загрузке карточек с сервера ${err}`));
-
-
-//Забираем данные о пользователе с сервера и отрисовываем их
-api.getUserData()
-    .then(data => {
-        userInfo.setUserInfo(data); 
-        userId = data._id;
-    }
-).catch(err => console.log(`Ошибка при загрузке профиля пользователя с сервера ${err}`));
-
+//Загружаем данные с сервера, и отрисовываем после удачной загрузки
+Promise.all([api.getUserData(), api.getInitialCards()])
+// тут деструктурируете ответ от сервера, чтобы было понятнее, что пришло
+  .then(([userData, initialCards]) => {
+    console.log('userData', userData);
+    console.log('initialCards', initialCards);
+        userInfo.setUserInfo(userData); // тут установка данных пользователя
+        console.log('setUserInfo');
+        userId = userData._id;   //запоминаем ид пользователя
+        console.log('userId', userId);
+        console.log('cardList в загрузке карточек с сервака', cardList);
+        cardList.renderItems(initialCards.reverse()); // и тут отрисовка карточек     
+  })
+  .catch(err => {
+    console.log(`Ошибка при загрузке данных с сервера ${err}`) // тут ловим ошибку
+  });
 
 //---------------------ПРОФИЛЬ
 const userInfo = new UserInfo({ //Экземпляр класса с данными из профиля пользователя.
@@ -161,9 +143,9 @@ function createCard (item){ //Функция создания новой кат�
 
 //Экземпляр класса Section
 const cardList = new Section ({
-      // data: items,
-        renderer: (item) => {
-            сardList.addItem(createCard(item));
+        renderer: (card) => {
+            console.log('cardList', cardList);
+            cardList.addItem(createCard(card));
         }
     },  '.cards-container');
       
@@ -175,8 +157,10 @@ const popupAddCard = new PopupWithForm({
         popupAddCard.renderLoading(true);
         api.sendNewCard(data)
         .then((data) => {
-            const card = createCard(data);
-            cardList.addItem(card);  
+            //const card = createCard(data);
+            console.log('cardList', cardList);
+            cardList.addItem(createCard(data)); 
+
         })
         .then(() => {
             popupAddCard.close();
