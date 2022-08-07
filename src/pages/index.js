@@ -22,6 +22,17 @@ import {buttonEdit, buttonAdd, buttonUpdateAvatar, avatar, sectionElementsContai
 const api = new Api(config); 
 let userId = null;
 
+// Promise.all([api.getUserData(), api.getInitialCards()])
+// // тут деструктурируете ответ от сервера, чтобы было понятнее, что пришло
+//   .then(([userData, initialCards]) => {
+//         userInfo.setUserInfo(userData); // тут установка данных пользователя
+//         userId = data._id;   //запоминаем ид пользователя
+//         defaultCardList.renderItems(); // и тут отрисовка карточек     
+//   })
+//   .catch(err => {
+//     console.log(`Ошибка при загрузке данных с сервера ${err}`) // тут ловим ошибку
+//   });
+
 //Отрисовываем начальные карточки
 api.getInitialCards()
     .then(items => {
@@ -124,12 +135,18 @@ function createCard (item){ //Функция создания новой кат�
             .then((data) => {
                 card.handleLikeCount(data);
             })
+            .then(() => {
+                card.toggleLikeCard();
+            })
             .catch(err => console.log(`Ошибка лайка ${err}`))
         },
         handleDisLikeCard: (cardId) => {//Дизлайкнуть карточку
             api.disLikeCard(cardId)
             .then((data) => {
                 card.handleLikeCount(data);
+            })
+            .then(() => {
+                card.toggleLikeCard();
             })
             .catch(err => console.log(`Ошибка ДИЗлайка ${err}`))
         }

@@ -46,10 +46,8 @@ export default class Card{
         this._likeButton.addEventListener('click', () => {//на клик по кнопке Лайк   
             if (this._likeButton.classList.contains('card__like-button_active')) {
                 this._handleDisLikeCard(this._cardId);
-                this._toggleLikeCard();
             } else {
                 this._handleLikeCard(this._cardId);
-                this._toggleLikeCard();
             }
         });
     };
@@ -60,7 +58,7 @@ export default class Card{
         this._element = null;
     };
 
-    _toggleLikeCard(){ //Переключает фон сердечка
+    toggleLikeCard(){ //Переключает фон сердечка
         this._likeButton.classList.toggle("card__like-button_active");
     };
 
